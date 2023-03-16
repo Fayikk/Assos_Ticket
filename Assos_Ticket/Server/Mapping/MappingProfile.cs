@@ -8,8 +8,8 @@ namespace Assos_Ticket.Server.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Bus,BusDTO>().ReverseMap();
-            CreateMap<Plane,PlaneDTO>().ReverseMap();
+            CreateMap<BusExpedition,BusExpeditionDTO>().ReverseMap();
+            CreateMap<PlaneExpedition,PlaneExpeditionDTO>().ReverseMap();
         }
     }
 }

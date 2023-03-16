@@ -4,6 +4,7 @@ using Assos_Ticket.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assos_Ticket.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230316181259_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,12 +113,6 @@ namespace Assos_Ticket.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExpeditionId"), 1L, 1);
 
-                    b.Property<int?>("BusId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PlaneId")
-                        .HasColumnType("int");
-
                     b.HasKey("ExpeditionId");
 
                     b.ToTable("Expeditions");
@@ -164,16 +160,7 @@ namespace Assos_Ticket.Server.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("Decimal(18,2)");
 
-                    b.Property<DateTime>("ReturnBack")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("ReturnStatus")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("TransferStatus")
                         .HasColumnType("bit");
 
                     b.HasKey("PlaneId");
@@ -210,38 +197,6 @@ namespace Assos_Ticket.Server.Migrations
                     b.HasIndex("ExpeditionId");
 
                     b.ToTable("Tickets");
-                });
-
-            modelBuilder.Entity("Assos_Ticket.Shared.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("PasswordSalt")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Assos_Ticket.Shared.BusExpedition", b =>

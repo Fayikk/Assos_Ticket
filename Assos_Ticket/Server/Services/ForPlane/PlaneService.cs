@@ -1,6 +1,7 @@
 ﻿using Assos_Ticket.Server.Context;
 using Assos_Ticket.Shared;
 using Assos_Ticket.Shared.DTO;
+using Assos_Ticket.Shared.Model;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,100 +9,97 @@ namespace Assos_Ticket.Server.Services.ForPlane
 {
     public class PlaneService : IPlaneService
     {
-        //private readonly DataContext _dataContext;
-        //private readonly IMapper _mapper;
-        //public PlaneService(DataContext dataContext,IMapper mapper)
-        //{
-        //    _dataContext = dataContext;
-        //    _mapper = mapper;
-        //}
+        private readonly DataContext _dataContext;
+        private readonly IMapper _mapper;
+        public PlaneService(DataContext dataContext, IMapper mapper)
+        {
+            _dataContext = dataContext;
+            _mapper = mapper;
+        }
 
-        //public async Task<ServiceResponse<PlaneDTO>> CreatePlane(PlaneDTO plane)
-        //{
-        //    var obj = _mapper.Map<PlaneDTO, Plane>(plane);
-        //    var addedObj = _dataContext.Planes.Add(obj);
-        //    await _dataContext.SaveChangesAsync();
-        //    var response = _mapper.Map<Plane, PlaneDTO>(addedObj.Entity);
-        //    return new ServiceResponse<PlaneDTO>
-        //    {
-        //        Success = true,
-        //        Message = "Your proccess is success",
-        //        Data = response,
-        //    };
-        //}
+        public async Task<ServiceResponse<PlaneExpeditionDTO>> CreatePlane(PlaneExpeditionDTO plane)
+        {
+            var obj = _mapper.Map<PlaneExpeditionDTO, PlaneExpedition>(plane);
+            var addedObj = _dataContext.Planes.Add(obj);
+            await _dataContext.SaveChangesAsync();
+            var response = _mapper.Map<PlaneExpedition, PlaneExpeditionDTO>(addedObj.Entity);
+            return new ServiceResponse<PlaneExpeditionDTO>
+            {
+                Data = response,
+                Message = "Your process is successfully",
+                Success = true,
+            };
+        }
 
-        //public async Task<ServiceResponse<PlaneDTO>> DeletePlane(int planeId)
-        //{
-        //    var result = await _dataContext.Planes.FirstOrDefaultAsync(x=>x.Id== planeId);
-        //    _dataContext.Planes.Remove(result);
-        //    await _dataContext.SaveChangesAsync();
-        //    var response = _mapper.Map<Plane, PlaneDTO>(result);
-        //    return new ServiceResponse<PlaneDTO>
-        //    {
-        //        Data = response,
-        //        Success = true,
-        //        Message = "Your process is success",
-        //    };
+        public async Task<ServiceResponse<List<PlaneExpedition>>> GetFilterByPlane(FilterForPlane filter)
+        {
 
-        //}
+     
 
-        //public async Task<ServiceResponse<List<Plane>>> GetAllPlane()
-        //{
-        //    var result = await _dataContext.Planes.ToListAsync();
-        //    if (result == null)
-        //    {
-        //        return new ServiceResponse<List<Plane>>
-        //        {
-        //            Message = "Your proccess is not succes",
-        //            Success = false
-        //        };
-        //    }
-        //    return new ServiceResponse<List<Plane>>
-        //    {
-        //        Success = true,
-        //        Data = result,
-        //    };
+            if (filter.ReturnStatus == true)
+            {
+                var result = await _dataContext.Planes.Where(x => x.Begining.ToLower().Equals(filter.Begin.ToLower())
+              && x.Finish.ToLower().Equals(filter.Finish.ToLower()) 
+              && x.BeginingDate.Year == filter.BeginingDate.Year &&x.BeginingDate.Month == filter.BeginingDate.Month && x.BeginingDate.Day == filter.BeginingDate.Day
+              && x.FinisingDate.Year == filter.FinisingDate.Year && x.FinisingDate.Month == filter.FinisingDate.Month && x.FinisingDate.Day == filter.FinisingDate.Day
+              && x.ReturnBack.Year == filter.ReturnBack.Year && x.ReturnBack.Month == filter.ReturnBack.Month && x.ReturnBack.Day == filter.ReturnBack.Day
+              && x.ReturnStatus == filter.ReturnStatus
+          ).ToListAsync();
 
-        //}
+                if (result.Count != 0)
+                {
 
-        //public async Task<ServiceResponse<PlaneDTO>> GetPlane(int planeId)
-        //{
-        //    var result = await _dataContext.Planes.FindAsync(planeId);
-        //    if (result == null)
-        //    {
-        //        return new ServiceResponse<PlaneDTO>
-        //        {
-        //            Success = false,
-        //        };
-        //    } 
-        //    var response = _mapper.Map<Plane,PlaneDTO>(result);
-        //    return new ServiceResponse<PlaneDTO>
-        //    {
-        //        Data = response,
-        //        Success = true,
-        //        Message = "PROCESS İS SUCCESSFULLY",
-        //    };
-        //}
+                    return new ServiceResponse<List<PlaneExpedition>>
+                    {
+                        Data = result,
+                        Message = "Your process is successfully",
+                        Success = true,
+                    };
+                }
+                return new ServiceResponse<List<PlaneExpedition>>
+                {
+                    Message = "FAİL",
+                    Success = false,
+                };
 
-        //public async Task<ServiceResponse<PlaneDTO>> UpdatePlane(PlaneDTO plane)
-        //{
-        //    var result = await _dataContext.Planes.FirstOrDefaultAsync(x => x.Id == plane.Id);
-        //    if (result == null)
-        //    {
-        //        return new ServiceResponse<PlaneDTO>
-        //        {
-        //            Success = false,
-        //        };
-        //    } 
-        //    var map = _mapper.Map<Plane, PlaneDTO>(result);
-        //    result.BusName=map.BusName;
-        //    result.SeatCount = map.SeatCount;
-        //    result.Company = map.Company;
-        //    _dataContext.Planes.Update(result);
-        //    await _dataContext.SaveChangesAsync();
-        //    var response = _mapper.Map<PlaneDTO, Plane>(map);
+            }
+            else
+            {
+                var result = await _dataContext.Planes.Where(x => x.Begining.ToLower().Equals(filter.Begin.ToLower())
+             && x.Finish.ToLower().Equals(filter.Finish.ToLower())
+            && x.BeginingDate.Year == filter.BeginingDate.Year && x.BeginingDate.Month == filter.BeginingDate.Month && x.BeginingDate.Day == filter.BeginingDate.Day
+              && x.FinisingDate.Year == filter.FinisingDate.Year && x.FinisingDate.Month == filter.FinisingDate.Month && x.FinisingDate.Day == filter.FinisingDate.Day
+              &&x.ReturnStatus == filter.ReturnStatus
+         ).ToListAsync();
 
-        //    return new ServiceResponse<PlaneDTO> {Message="Your process is success",Data=map };
-        //}
+                if (result.Count!=0)
+                {
+                    return new ServiceResponse<List<PlaneExpedition>>
+                    {
+                        Data = result,
+                        Message = "Your process is successfully",
+                        Success = true,
+                    };
+                }
+                return new ServiceResponse<List<PlaneExpedition>>
+                {
+                    Message = "FAİL",
+                    Success = false,
+                };
+            }
+
+
+            //Nereden -> Nereye
+            //Gidiş Tarihi ,Dönüş Tarihi eğer false ise geç eğer değilse dönüş tarihide gir
+
+
+
+        }
     }
+    //public string Begin { get; set; }
+    //public string Finish { get; set; }
+    //public DateTime BeginingDate { get; set; }
+    //public DateTime FinisingDate { get; set; }
+    //public DateTime ReturnBack { get; set; }
+    //public bool ReturnStatus { get; set; } = false;
 }

@@ -4,6 +4,7 @@ using Assos_Ticket.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assos_Ticket.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230316193547_ForPlane")]
+    partial class ForPlane
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,13 +169,7 @@ namespace Assos_Ticket.Server.Migrations
                     b.Property<DateTime>("ReturnBack")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("ReturnStatus")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("TransferStatus")
                         .HasColumnType("bit");
 
                     b.HasKey("PlaneId");

@@ -9,22 +9,12 @@ namespace Assos_Ticket.Server.Context
         {
         }
       
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-           
-
-
-            modelBuilder.Entity<Expedition>()
-                .Property(e => e.CreatedDate)
-                .HasColumnType("datetime");
-
-        }
-
-        public DbSet<Bus> Busses { get; set; }
-        public DbSet<Plane> Planes { get; set; }
+        public DbSet<BusExpedition> Busses { get; set; }
+        public DbSet<PlaneExpedition> Planes { get; set; }
         public DbSet<Expedition> Expeditions { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Ticket> Tickets { get; set; }  
+        public DbSet<User> Users { get; set; }  
 
     }
 }

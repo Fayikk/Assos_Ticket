@@ -12,21 +12,9 @@ namespace Assos_Ticket.Shared
     {
         [Key]
         public int ExpeditionId { get; set; }
-        [Required]
-        public DateTime BeginingDate { get; set; }
-        [Required]
-        public DateTime FinisingDate { get; set; }
-        [Required]
-        public string Begining { get; set; }
-        [Required]
-        public string Finish { get; set; }
-        [Required]
-        [Column(TypeName = "Decimal(18,2)")]
-        public DateTime CreatedDate { get; set; }
-        public Decimal Price { get; set; }
-        public bool Status { get; set; }
-        public Bus Bus { get; set; }
-        public Plane Plane { get; set; }
-        public List<Ticket> Tickets { get; set; }   
+        public int? BusId { get; set; }
+        public int? PlaneId { get; set; }    
+        public List<BusExpedition> BusExpeditions { get; set; }
+        public List<PlaneExpedition> PlaneExpeditions { get; set; }
     }
 }
