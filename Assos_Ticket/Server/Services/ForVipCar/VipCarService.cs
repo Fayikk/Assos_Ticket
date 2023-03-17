@@ -11,7 +11,7 @@ namespace Assos_Ticket.Server.Services.ForVipCar
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public VipCarService( DataContext context, IMapper mapper)
+        public VipCarService(DataContext context, IMapper mapper)
         {
             _mapper = mapper;
             _context = context;
@@ -89,9 +89,60 @@ namespace Assos_Ticket.Server.Services.ForVipCar
             };
         }
 
-        public Task<ServiceResponse<List<VipCar>>> GetFilterByVipCar(FilterForVipCar filterForVipCar,bool status)
+        public async Task<ServiceResponse<List<VipCar>>> GetFilterByVipCar(FilterForVipCar filterForVipCar, bool status)
         {
-            return null;
+            if (status == false)
+            {
+                var result = await _context.VipCars.
+                    Where(x => x.PickupPlace.ToLower()
+                    .Equals(filterForVipCar.PickupPlace.ToLower())
+                    && x.PurchaseDate.Year == filterForVipCar.PurchaseDate.Year
+                      && x.PurchaseDate.Month == filterForVipCar.PurchaseDate.Month
+                        && x.PurchaseDate.Day == filterForVipCar.PurchaseDate.Day
+
+                         && x.PurchaseDate.Year == filterForVipCar.PurchaseDate.Year
+                          && x.PurchaseDate.Month == filterForVipCar.PurchaseDate.Month
+                           && x.PurchaseDate.Day == filterForVipCar.PurchaseDate.Day
+                    ).ToListAsync();
+
+                if (result.Count == 0)
+                {
+                    return new ServiceResponse<List<VipCar>>
+                    {
+                        Message = "Your process is failed",
+                        Success = false,
+
+                    };
+                }
+
+                return new ServiceResponse<List<VipCar>> { Data = result, Success = true, Message = "Successfully" };
+            }
+            else
+            {
+                var result = await _context.VipCars.
+                  Where(x => x.PickupPlace.ToLower().Equals(filterForVipCar.PickupPlace.ToLower())
+                  && x.DropOfLocation.ToLower().Equals(filterForVipCar.DropOfLocation.ToLower())
+                  && x.PurchaseDate.Year == filterForVipCar.PurchaseDate.Year
+                    && x.PurchaseDate.Month == filterForVipCar.PurchaseDate.Month
+                      && x.PurchaseDate.Day == filterForVipCar.PurchaseDate.Day
+                       && x.PurchaseDate.Year == filterForVipCar.PurchaseDate.Year
+                        && x.PurchaseDate.Month == filterForVipCar.PurchaseDate.Month
+                         && x.PurchaseDate.Day == filterForVipCar.PurchaseDate.Day
+                  ).ToListAsync();
+
+
+                if (result.Count  == 0)
+                {
+                    return new ServiceResponse<List<VipCar>>
+                    {
+                        Message = "Your process is failed",
+                        Success = false,
+
+                    };
+                }
+
+                return new ServiceResponse<List<VipCar>> { Data = result, Success = true, Message = "Successfully" };
+            }
         }
 
         public async Task<ServiceResponse<VipCarDTO>> UpdateVipCar(VipCarDTO vipCarDTO)

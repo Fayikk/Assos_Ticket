@@ -49,7 +49,6 @@ namespace Assos_Ticket.Shared
 
         public bool CarStatus { get; set; }
 
-        public TimeSpan? Time { get; set; }
 
     }
 }
