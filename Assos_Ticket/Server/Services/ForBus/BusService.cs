@@ -19,7 +19,7 @@ namespace Assos_Ticket.Server.Services.ForBus
 
         public async Task<ServiceResponse<BusExpeditionDTO>> CreateBus(BusExpeditionDTO bus)
         {
-            var obj = _mapper.Map<BusExpeditionDTO,BusExpedition>(bus);
+            var obj = _mapper.Map<BusExpeditionDTO, BusExpedition>(bus);
             var addedObj = _dataContext.Busses.Add(obj);
             await _dataContext.SaveChangesAsync();
             var response = _mapper.Map<BusExpedition, BusExpeditionDTO>(addedObj.Entity);
@@ -94,12 +94,12 @@ namespace Assos_Ticket.Server.Services.ForBus
 
         public async Task<ServiceResponse<List<BusExpedition>>> GetFilterByBus(string begining, string finishing, DateTime date)
         {
-            DateTime dateTime = new DateTime(date.Year, date.Month,date.Day);
-            date = dateTime;
-
             var result = await _dataContext.Busses
                     .Where(x => x.Begining.ToLower().Equals(finishing.ToLower())
-                    && x.Finish.ToLower().Equals(finishing.ToLower()) && x.BeginingDate == date).ToListAsync();
+                    && x.Finish.ToLower().Equals(finishing.ToLower())
+                    && x.BeginingDate.Year == date.Year
+                     && x.BeginingDate.Month == date.Month
+                      && x.BeginingDate.Day == date.Day).ToListAsync();
 
             if (result == null)
             {

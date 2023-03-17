@@ -3,6 +3,7 @@ using Assos_Ticket.Server.Services.ForAuth;
 using Assos_Ticket.Server.Services.ForBus;
 using Assos_Ticket.Server.Services.ForExpedition;
 using Assos_Ticket.Server.Services.ForPlane;
+using Assos_Ticket.Server.Services.ForVipCar;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.WebSockets;
@@ -18,10 +19,13 @@ builder.Services.AddSwaggerGen(c =>
 // Add services to the container.
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped<IBusService, BusService>();
 builder.Services.AddScoped<IPlaneService, PlaneService>();
 builder.Services.AddScoped<IExpeditionService,ExpeditionService>();
-builder.Services.AddScoped<IAuthService, AuthService>();    
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IVipCarService, VipCarService>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

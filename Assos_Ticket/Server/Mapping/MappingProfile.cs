@@ -10,6 +10,7 @@ namespace Assos_Ticket.Server.Mapping
         {
             CreateMap<BusExpedition,BusExpeditionDTO>().ReverseMap();
             CreateMap<PlaneExpedition,PlaneExpeditionDTO>().ReverseMap();
+            CreateMap<VipCar,VipCarDTO>().ReverseMap(); 
         }
     }
 }

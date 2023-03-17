@@ -12,10 +12,10 @@ namespace Assos_Ticket.Shared
         [Key]
         public int TicketID { get; set; }
         [Required]
-        public DateTime BoughtDate { get; set; }    
-        public Customer Customer { get; set; }  
-        public Expedition Expedition { get; set; }
+        public int UserId { get; set; }
         [Required]
-        public int SeatNo { get; set; } 
+        public DateTime BoughtDate { get; set; }    
+        
+
     }
 }

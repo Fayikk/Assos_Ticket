@@ -34,21 +34,19 @@ namespace Assos_Ticket.Server.Services.ForPlane
         public async Task<ServiceResponse<List<PlaneExpedition>>> GetFilterByPlane(FilterForPlane filter)
         {
 
-     
+
 
             if (filter.ReturnStatus == true)
             {
                 var result = await _dataContext.Planes.Where(x => x.Begining.ToLower().Equals(filter.Begin.ToLower())
-              && x.Finish.ToLower().Equals(filter.Finish.ToLower()) 
-              && x.BeginingDate.Year == filter.BeginingDate.Year &&x.BeginingDate.Month == filter.BeginingDate.Month && x.BeginingDate.Day == filter.BeginingDate.Day
+              && x.Finish.ToLower().Equals(filter.Finish.ToLower())
+              && x.BeginingDate.Year == filter.BeginingDate.Year && x.BeginingDate.Month == filter.BeginingDate.Month && x.BeginingDate.Day == filter.BeginingDate.Day
               && x.FinisingDate.Year == filter.FinisingDate.Year && x.FinisingDate.Month == filter.FinisingDate.Month && x.FinisingDate.Day == filter.FinisingDate.Day
               && x.ReturnBack.Year == filter.ReturnBack.Year && x.ReturnBack.Month == filter.ReturnBack.Month && x.ReturnBack.Day == filter.ReturnBack.Day
               && x.ReturnStatus == filter.ReturnStatus
-          ).ToListAsync();
-
+          ).OrderByDescending(x=>x.Price).ToListAsync();
                 if (result.Count != 0)
                 {
-
                     return new ServiceResponse<List<PlaneExpedition>>
                     {
                         Data = result,
@@ -61,7 +59,6 @@ namespace Assos_Ticket.Server.Services.ForPlane
                     Message = "FAİL",
                     Success = false,
                 };
-
             }
             else
             {
@@ -69,10 +66,9 @@ namespace Assos_Ticket.Server.Services.ForPlane
              && x.Finish.ToLower().Equals(filter.Finish.ToLower())
             && x.BeginingDate.Year == filter.BeginingDate.Year && x.BeginingDate.Month == filter.BeginingDate.Month && x.BeginingDate.Day == filter.BeginingDate.Day
               && x.FinisingDate.Year == filter.FinisingDate.Year && x.FinisingDate.Month == filter.FinisingDate.Month && x.FinisingDate.Day == filter.FinisingDate.Day
-              &&x.ReturnStatus == filter.ReturnStatus
-         ).ToListAsync();
-
-                if (result.Count!=0)
+              && x.ReturnStatus == filter.ReturnStatus
+         ).OrderByDescending(x=>x.Price).ToListAsync();
+                if (result.Count != 0)
                 {
                     return new ServiceResponse<List<PlaneExpedition>>
                     {
@@ -87,19 +83,9 @@ namespace Assos_Ticket.Server.Services.ForPlane
                     Success = false,
                 };
             }
-
-
-            //Nereden -> Nereye
-            //Gidiş Tarihi ,Dönüş Tarihi eğer false ise geç eğer değilse dönüş tarihide gir
-
-
-
         }
+
+
     }
-    //public string Begin { get; set; }
-    //public string Finish { get; set; }
-    //public DateTime BeginingDate { get; set; }
-    //public DateTime FinisingDate { get; set; }
-    //public DateTime ReturnBack { get; set; }
-    //public bool ReturnStatus { get; set; } = false;
+
 }
