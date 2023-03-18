@@ -88,7 +88,6 @@ namespace Assos_Ticket.Server.Services.ForPlane
         public async Task<ServiceResponse<PlaneExpeditionDTO>> GetPlaneById(int planeId)
         {
             var result = await _dataContext.Planes.FindAsync(planeId);
-            var forImage = await _dataContext.CarImages.FirstOrDefaultAsync(x=>x.PlaneId== planeId);
             if (result != null) 
             {
                 return new ServiceResponse<PlaneExpeditionDTO>
@@ -98,7 +97,6 @@ namespace Assos_Ticket.Server.Services.ForPlane
                 };
             }
             var response = _mapper.Map<PlaneExpedition, PlaneExpeditionDTO>(result);
-            response.ImageUrl = forImage.ImageUrl;
 
             return new ServiceResponse<PlaneExpeditionDTO>
             {

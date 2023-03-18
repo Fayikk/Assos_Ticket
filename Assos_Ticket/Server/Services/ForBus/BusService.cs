@@ -75,7 +75,6 @@ namespace Assos_Ticket.Server.Services.ForBus
         public async Task<ServiceResponse<BusExpedition>> GetBus(int busId)
         {
             var result = await _dataContext.Busses.FindAsync(busId);
-            var forImage = await _dataContext.CarImages.FirstOrDefaultAsync(x => x.BusId == busId);
             if (result == null)
             {
                 return new ServiceResponse<BusExpedition>
@@ -84,7 +83,6 @@ namespace Assos_Ticket.Server.Services.ForBus
                     Message = "Failed",
                 };
             }
-            result.ImageUrl = forImage.ImageUrl;
             return new ServiceResponse<BusExpedition>
             {
                 Data = result,

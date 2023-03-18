@@ -74,7 +74,6 @@ namespace Assos_Ticket.Server.Services.ForVipCar
         public async Task<ServiceResponse<VipCarDTO>> GetByCar(int id)
         {
             var obj = await _context.VipCars.FindAsync(id);
-            var ForImages = await _context.CarImages.FirstOrDefaultAsync();
 
             if (obj == null)
             {
@@ -85,7 +84,6 @@ namespace Assos_Ticket.Server.Services.ForVipCar
                 };
             }
             var response = _mapper.Map<VipCar, VipCarDTO>(obj);
-            response.ImageUrl = ForImages.ImageUrl;
             return new ServiceResponse<VipCarDTO>
             {
                 Data = response,

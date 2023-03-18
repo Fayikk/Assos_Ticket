@@ -20,6 +20,7 @@ namespace Assos_Ticket.Server.Services.ForCarImage
         }
         public CarImage Add(IFormFile file,int carId )
         {
+            var forCar = _context.VipCars.FirstOrDefault(x => x.CarId == carId);
             CarImage carImage = new CarImage(); 
             string ImagesPath = "wwwroot\\images\\";
            
@@ -27,7 +28,9 @@ namespace Assos_Ticket.Server.Services.ForCarImage
             carImage.Date = DateTime.Now;
             carImage.VipCarId=carId;
             carImage.ImageUrl = $"/images/{carImage.ImagePath}";
+            forCar.ImageUrl = carImage.ImageUrl;
             _context.CarImages.Add(carImage);
+            _context.VipCars.Update(forCar);
             _context.SaveChanges();
 
             return carImage;
@@ -75,8 +78,9 @@ namespace Assos_Ticket.Server.Services.ForCarImage
             return cars;
         }
 
-        public CarImage AddPlane(IFormFile file, int planeId)
+        public  CarImage AddPlane(IFormFile file, int planeId)
         {
+            var forPlane =  _context.Planes.FirstOrDefault(x => x.PlaneId == planeId);
             CarImage carImage = new CarImage();
             string ImagesPath = "wwwroot\\images\\";
 
@@ -84,7 +88,9 @@ namespace Assos_Ticket.Server.Services.ForCarImage
             carImage.Date = DateTime.Now;
             carImage.PlaneId = planeId;
             carImage.ImageUrl = $"/images/{carImage.ImagePath}";
+            forPlane.ImageUrl = carImage.ImageUrl;
             _context.CarImages.Add(carImage);
+            _context.Planes.Update(forPlane);
             _context.SaveChanges();
 
             return carImage;
@@ -92,6 +98,7 @@ namespace Assos_Ticket.Server.Services.ForCarImage
 
         public CarImage AddBus(IFormFile file, int busId)
         {
+            var forBus = _context.Busses.FirstOrDefault(x => x.BusId == busId);
             CarImage carImage = new CarImage();
             string ImagesPath = "wwwroot\\images\\";
 
@@ -99,7 +106,9 @@ namespace Assos_Ticket.Server.Services.ForCarImage
             carImage.Date = DateTime.Now;
             carImage.BusId = busId;
             carImage.ImageUrl = $"/images/{carImage.ImagePath}";
+            forBus.ImageUrl = carImage.ImageUrl;
             _context.CarImages.Add(carImage);
+            _context.Busses.Update(forBus);
             _context.SaveChanges();
 
             return carImage;
