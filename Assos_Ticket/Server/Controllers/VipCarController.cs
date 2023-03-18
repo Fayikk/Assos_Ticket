@@ -31,5 +31,11 @@ namespace Assos_Ticket.Server.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<VipCarDTO>>> GetCarById([FromRoute]int id)
+        {
+            var result = await _vipCarService.GetByCar(id);
+            return Ok(result);
+        }
     }
 }

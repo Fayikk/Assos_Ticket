@@ -4,6 +4,8 @@ using Assos_Ticket.Shared.DTO;
 using Assos_Ticket.Shared.Model;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
+//using static System.Net.Mime.MediaTypeNames;
 
 namespace Assos_Ticket.Server.Services.ForVipCar
 {
@@ -72,6 +74,8 @@ namespace Assos_Ticket.Server.Services.ForVipCar
         public async Task<ServiceResponse<VipCarDTO>> GetByCar(int id)
         {
             var obj = await _context.VipCars.FindAsync(id);
+            var ForImages = await _context.CarImages.FirstOrDefaultAsync();
+
             if (obj == null)
             {
                 return new ServiceResponse<VipCarDTO>
@@ -81,6 +85,7 @@ namespace Assos_Ticket.Server.Services.ForVipCar
                 };
             }
             var response = _mapper.Map<VipCar, VipCarDTO>(obj);
+            response.ImageUrl = ForImages.ImageUrl;
             return new ServiceResponse<VipCarDTO>
             {
                 Data = response,
@@ -182,6 +187,15 @@ namespace Assos_Ticket.Server.Services.ForVipCar
 
 
 
+        }
+
+        public static Image ConvertByteArrayToImage(byte[] byteArray)
+        {
+            using (MemoryStream ms = new MemoryStream(byteArray))
+            {
+                Image image = Image.FromStream(ms);
+                return new Bitmap(image);
+            }
         }
     }
 }

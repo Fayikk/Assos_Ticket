@@ -23,6 +23,6 @@ namespace Assos_Ticket.Shared.DTO
         public Decimal DailyPrice { get; set; }
         public bool CarStatus { get; set; }
         public string DropOfLocation { get; set; }
-
+        public string ImageUrl { get; set; }
     }
 }

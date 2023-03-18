@@ -38,6 +38,8 @@ namespace Assos_Ticket.Shared
         [Column(TypeName = "Decimal(18,2)")]
         public Decimal Price { get; set; }
 
+        public string? ImageUrl { get; set; }
+
         public bool Status { get; set; } = true;
     }
 }

@@ -8,5 +8,6 @@ namespace Assos_Ticket.Server.Services.ForPlane
     {
         Task<ServiceResponse<PlaneExpeditionDTO>> CreatePlane(PlaneExpeditionDTO plane);
         Task<ServiceResponse<List<PlaneExpedition>>> GetFilterByPlane(FilterForPlane filter);
+        Task<ServiceResponse<PlaneExpeditionDTO>> GetPlaneById(int planeId);
     }
 }

@@ -23,6 +23,7 @@ namespace Assos_Ticket.Shared.DTO
         public string Finish { get; set; }
         public DateTime CreatedDate { get; set; }
         public Decimal Price { get; set; }
+        public string? ImageUrl { get; set; }
 
         public bool Status { get; set; } = true;
     }

@@ -1,6 +1,8 @@
 using Assos_Ticket.Server.Context;
+using Assos_Ticket.Server.Helper;
 using Assos_Ticket.Server.Services.ForAuth;
 using Assos_Ticket.Server.Services.ForBus;
+using Assos_Ticket.Server.Services.ForCarImage;
 using Assos_Ticket.Server.Services.ForExpedition;
 using Assos_Ticket.Server.Services.ForPlane;
 using Assos_Ticket.Server.Services.ForVipCar;
@@ -8,10 +10,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.WebSockets;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBlazor", Version = "v1" });
@@ -25,6 +29,8 @@ builder.Services.AddScoped<IPlaneService, PlaneService>();
 builder.Services.AddScoped<IExpeditionService,ExpeditionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IVipCarService, VipCarService>();
+builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<ICarImageService, CarImageService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -89,8 +95,12 @@ else
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
+//app.UseStaticFiles(new StaticFileOptions
+//{
+//    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")),
+//    RequestPath = "/images"
+//});
 app.UseStaticFiles();
-
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
