@@ -100,8 +100,11 @@ namespace Assos_Ticket.Server.Services.ForOrderBus
             };
         }
 
+     
+
         public async Task<ServiceResponse<List<OrderBus>>> GetListByUser()
         {
+            //Reservasyonlar listelenir
             var user = _authService.GetUserId();
             var result = await _context.OrderBusses.Where(x => x.UserId == user).ToListAsync();
 
@@ -124,6 +127,7 @@ namespace Assos_Ticket.Server.Services.ForOrderBus
 
         public async Task<ServiceResponse<bool>> RefundReserve(int id)
         {
+            //Listelenen rezervasyonlara onclick ile tetiklenerek bu metod'u sorgular; 
             DateTime time = new DateTime();
             var result = await _context.OrderBusses.FirstOrDefaultAsync(x => x.Id == id);
             var resultBus = await _context.Busses.FirstOrDefaultAsync(x => x.BusId == result.BusId);

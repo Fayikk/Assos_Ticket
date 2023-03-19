@@ -1,7 +1,9 @@
 ﻿using Assos_Ticket.Server.Context;
+using Assos_Ticket.Server.Services.ForAuth;
 using Assos_Ticket.Shared;
 using Assos_Ticket.Shared.DTO;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -11,10 +13,14 @@ namespace Assos_Ticket.Server.Services.ForBus
     {
         private readonly DataContext _dataContext;
         private readonly IMapper _mapper;
-        public BusService(DataContext dataContext, IMapper mapper)
+        private readonly IEmailSender _emailSender;
+        private readonly IAuthService _authService;
+        public BusService(DataContext dataContext,IAuthService authService, IEmailSender emailSender,IMapper mapper)
         {
             _dataContext = dataContext;
             _mapper = mapper;
+            _emailSender = emailSender;
+            _authService = authService;
         }
 
         public async Task<ServiceResponse<BusExpeditionDTO>> CreateBus(BusExpeditionDTO bus)
@@ -118,9 +124,9 @@ namespace Assos_Ticket.Server.Services.ForBus
 
         }
 
-        public async Task<ServiceResponse<BusExpedition>> UpdateBus(BusExpedition bus)
+        public async Task<ServiceResponse<BusExpedition>> UpdateBus(int id,decimal price)
         {
-            var result = await _dataContext.Busses.FirstOrDefaultAsync(x => x.BusId == bus.BusId);
+            var result = await _dataContext.Busses.FirstOrDefaultAsync(x => x.BusId == id);
             if (result == null)
             {
                 return new ServiceResponse<BusExpedition>
@@ -128,13 +134,29 @@ namespace Assos_Ticket.Server.Services.ForBus
                     Success = false,
                 };
             }
+            result.Price = price;
+            _dataContext.Busses.Update(result);
+            DiscountAlertBus(result.BusId, price);
+            await _dataContext.SaveChangesAsync();
             return new ServiceResponse<BusExpedition>
             {
                 Data = result,
                 Message = "Success",
                 Success = true,
             };
+         }
 
+        private async Task<bool> DiscountAlertBus(int BusId,decimal price)
+        {
+            var result =  _dataContext.Discounts.FirstOrDefault(x => x.BusId == BusId);
+          
+            if (price<=result.DiscountAmount)
+            {
+                await _emailSender.SendEmailAsync(result.Email, "İndirim Olayları Anlarsın Ya","Belirttiğin seferde istenen indirim gerçekleşti sakın kaçırma");
+                return true;
+            }
+            return false;
         }
+
     }
 }

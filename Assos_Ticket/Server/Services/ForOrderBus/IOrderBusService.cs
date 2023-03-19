@@ -7,5 +7,6 @@ namespace Assos_Ticket.Server.Services.ForOrderBus
         Task<ServiceResponse<OrderBus>> BusReservation(int id,int seatNo);
         Task<ServiceResponse<List<OrderBus>>> GetListByUser();
         Task<ServiceResponse<bool>> RefundReserve(int id);
+      
     }
 }

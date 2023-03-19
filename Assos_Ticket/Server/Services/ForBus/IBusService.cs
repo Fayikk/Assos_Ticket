@@ -7,10 +7,11 @@ namespace Assos_Ticket.Server.Services.ForBus
     {
         Task<ServiceResponse<BusExpeditionDTO>> CreateBus(BusExpeditionDTO bus);
         Task<ServiceResponse<BusExpedition>> DeleteBus(int busId);
-        Task<ServiceResponse<BusExpedition>> UpdateBus(BusExpedition bus);
+        Task<ServiceResponse<BusExpedition>> UpdateBus(int busId,decimal price);
         Task<ServiceResponse<BusExpedition>> GetBus(int busId);
         Task<ServiceResponse<List<BusExpedition>>> GetAllBus();
         Task<ServiceResponse<List<BusExpedition>>> GetFilterByBus(string begining,string finishing,DateTime date);
+     
 
     }
 }

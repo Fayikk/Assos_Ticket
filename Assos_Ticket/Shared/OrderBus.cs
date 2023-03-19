@@ -10,10 +10,7 @@ namespace Assos_Ticket.Shared
 {
     public class OrderBus
     {
-        //Kapasite aşılmamalı
-        //İlgili Koltuk Doluysa Uyarmalı
-        //Seiçlen Koltuk Numarasının sınırları belli olmalıdır
-        //Erkek ve kadın yan yana oturamaz (1-2,3-4,5-6...gibi)//eğer seçilen koltuk numarası tek ise bir sonraki koltuk,çift ise bir önceki koltuk kontrol edilir.
+       
         [Key]
         public int Id { get; set; }
         public int BusId { get; set; }
