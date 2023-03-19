@@ -1,7 +1,9 @@
 ﻿using Assos_Ticket.Server.Services.ForCarImage;
 using Assos_Ticket.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Assos_Ticket.Server.Controllers
 {
@@ -16,7 +18,9 @@ namespace Assos_Ticket.Server.Controllers
         }
 
         [HttpPost("add-image")]
-        public  IActionResult CreateImage([FromForm] IFormFile file, [FromForm] int carId)
+        [Authorize(Roles = "Admin")]
+
+        public IActionResult CreateImage([FromForm] IFormFile file, [FromForm] int carId)
         {
             var result = _carImageService.Add(file, carId);
             if (result == null)
@@ -27,6 +31,8 @@ namespace Assos_Ticket.Server.Controllers
         }
 
         [HttpPost("add-image-plane")]
+        [Authorize(Roles = "Admin")]
+
         public IActionResult CreateImagePlane([FromForm] IFormFile file, [FromForm] int planeId)
         {
             var result = _carImageService.AddPlane(file, planeId);
@@ -37,6 +43,8 @@ namespace Assos_Ticket.Server.Controllers
             return Ok(result);
         }
         [HttpPost("add-image-bus")]
+        [Authorize(Roles = "Admin")]
+
         public IActionResult CreateImageBus([FromForm] IFormFile file, [FromForm] int busId)
         {
             var result = _carImageService.AddBus(file, busId);

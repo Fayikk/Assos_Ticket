@@ -14,5 +14,6 @@ namespace Assos_Ticket.Shared
         public byte[] PasswordHash { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
         public string Role { get; set; } = "Customer";
+        public bool Gender { get; set; }  
     }
 }

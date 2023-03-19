@@ -94,6 +94,7 @@ namespace Assos_Ticket.Server.Services.ForVipCar
 
         public async Task<ServiceResponse<List<VipCar>>> GetFilterByVipCar(FilterForVipCar filterForVipCar, bool status)
         {
+            List<VipCar> vipCar = new List<VipCar>();
             if (status == false)
             {
                 var result = await _context.VipCars.
@@ -150,6 +151,7 @@ namespace Assos_Ticket.Server.Services.ForVipCar
 
         public async Task<ServiceResponse<VipCarDTO>> UpdateVipCar(VipCarDTO vipCarDTO)
         {
+           
             var obj = _mapper.Map<VipCarDTO, VipCar>(vipCarDTO);
             var result = await _context.VipCars.FirstOrDefaultAsync(x => x.CarId == vipCarDTO.CarId);
 
@@ -187,13 +189,28 @@ namespace Assos_Ticket.Server.Services.ForVipCar
 
         }
 
-        public static Image ConvertByteArrayToImage(byte[] byteArray)
+
+        public async Task<ServiceResponse<List<VipCar>>> SearchText(string searchText)
         {
-            using (MemoryStream ms = new MemoryStream(byteArray))
+            var result = await _context.VipCars.
+                Where(x => x.Brand.ToLower().Equals(searchText.ToLower()) 
+                || 
+                x.Model.ToLower().Equals(searchText.ToLower())).ToListAsync();
+            if (result == null)
             {
-                Image image = Image.FromStream(ms);
-                return new Bitmap(image);
+                return new ServiceResponse<List<VipCar>>
+                {
+                    Success = false,
+                    Message = "Process is fail",
+                };
             }
+            return new ServiceResponse<List<VipCar>>
+            {
+                Data = result,
+                Success = true,
+                Message = "Process is success",
+            };
+
         }
     }
 }

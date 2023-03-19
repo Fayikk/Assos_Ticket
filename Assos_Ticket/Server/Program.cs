@@ -4,6 +4,7 @@ using Assos_Ticket.Server.Services.ForAuth;
 using Assos_Ticket.Server.Services.ForBus;
 using Assos_Ticket.Server.Services.ForCarImage;
 using Assos_Ticket.Server.Services.ForExpedition;
+using Assos_Ticket.Server.Services.ForOrderBus;
 using Assos_Ticket.Server.Services.ForPlane;
 using Assos_Ticket.Server.Services.ForVipCar;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,6 +32,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IVipCarService, VipCarService>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<ICarImageService, CarImageService>();
+builder.Services.AddScoped<IOrderBusService,OrderBusService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

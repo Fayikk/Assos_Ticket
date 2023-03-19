@@ -67,7 +67,7 @@ namespace Assos_Ticket.Server.Services.ForPlane
             && x.BeginingDate.Year == filter.BeginingDate.Year && x.BeginingDate.Month == filter.BeginingDate.Month && x.BeginingDate.Day == filter.BeginingDate.Day
               && x.FinisingDate.Year == filter.FinisingDate.Year && x.FinisingDate.Month == filter.FinisingDate.Month && x.FinisingDate.Day == filter.FinisingDate.Day
               && x.ReturnStatus == filter.ReturnStatus
-         ).OrderByDescending(x=>x.Price).ToListAsync();
+         ).OrderBy(x=>x.Price).ToListAsync();
                 if (result.Count != 0)
                 {
                     return new ServiceResponse<List<PlaneExpedition>>

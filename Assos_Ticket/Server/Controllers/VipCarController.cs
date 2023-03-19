@@ -2,8 +2,10 @@
 using Assos_Ticket.Shared;
 using Assos_Ticket.Shared.DTO;
 using Assos_Ticket.Shared.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Assos_Ticket.Server.Controllers
 {
@@ -19,12 +21,16 @@ namespace Assos_Ticket.Server.Controllers
 
 
         [HttpPost("forFilter")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<ActionResult<ServiceResponse<List<VipCar>>>> FilterByCar(FilterForVipCar car,bool status)
         {
             var result = await _vipCarService.GetFilterByVipCar(car, status);
             return Ok(result);  
         }
         [HttpPost("Create")]
+        [Authorize(Roles ="Admin")]
+
         public async Task<ActionResult<ServiceResponse<VipCarDTO>>> CreateCar(VipCarDTO car)
         {
             var result = await _vipCarService.CreateVipCar(car);
@@ -36,6 +42,12 @@ namespace Assos_Ticket.Server.Controllers
         {
             var result = await _vipCarService.GetByCar(id);
             return Ok(result);
+        }
+        [HttpGet("{searchText}")]
+        public async Task<ActionResult<ServiceResponse<List<VipCar>>>> GetBySearchText([FromRoute]string searchText)
+        {
+            var result = await _vipCarService.SearchText(searchText);
+            return Ok(result);  
         }
     }
 }

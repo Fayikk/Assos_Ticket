@@ -17,6 +17,7 @@ namespace Assos_Ticket.Server.Context
         public DbSet<User> Users { get; set; }  
         public DbSet<VipCar> VipCars { get; set; }  
         public DbSet<CarImage> CarImages { get; set; }
+        public DbSet<OrderBus> OrderBusses { get; set; }
 
     }
 }

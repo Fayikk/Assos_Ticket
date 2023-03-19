@@ -1,6 +1,7 @@
 ﻿using Assos_Ticket.Server.Services.ForBus;
 using Assos_Ticket.Shared;
 using Assos_Ticket.Shared.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace Assos_Ticket.Server.Controllers
         }
 
         [HttpPost("create")]
+        //[Authorize(Roles ="Admin")]
         public async Task<ActionResult<ServiceResponse<BusExpeditionDTO>>> CreateBus(BusExpeditionDTO busDTO)
         {
             var result = await _busService.CreateBus(busDTO);

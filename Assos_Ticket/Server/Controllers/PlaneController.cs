@@ -2,8 +2,10 @@
 using Assos_Ticket.Shared;
 using Assos_Ticket.Shared.DTO;
 using Assos_Ticket.Shared.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Assos_Ticket.Server.Controllers
 {
@@ -19,6 +21,8 @@ namespace Assos_Ticket.Server.Controllers
 
 
         [HttpPost("FilterByPlane")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<ActionResult<ServiceResponse<List<PlaneExpedition>>>> GetFilterByPlane([FromBody]FilterForPlane filter)
         {
             var result = await _planeService.GetFilterByPlane(filter);
@@ -26,6 +30,8 @@ namespace Assos_Ticket.Server.Controllers
         }
 
         [HttpPost("CreatePlane")]
+        [Authorize(Roles ="Admin")]
+
         public async Task<ActionResult<ServiceResponse<PlaneExpedition>>> CreatePlane(PlaneExpeditionDTO planeExpedition)
         {
             var result = await _planeService.CreatePlane(planeExpedition);
