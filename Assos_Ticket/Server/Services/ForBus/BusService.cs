@@ -149,12 +149,18 @@ namespace Assos_Ticket.Server.Services.ForBus
         private async Task<bool> DiscountAlertBus(int BusId,decimal price)
         {
             var result =  _dataContext.Discounts.FirstOrDefault(x => x.BusId == BusId);
-          
-            if (price<=result.DiscountAmount)
+            if (result.Status == true)
             {
-                await _emailSender.SendEmailAsync(result.Email, "İndirim Olayları Anlarsın Ya","Belirttiğin seferde istenen indirim gerçekleşti sakın kaçırma");
-                return true;
+                if (price <= result.DiscountAmount)
+                {
+                    await _emailSender.SendEmailAsync(result.Email, "İndirim Olayları!", "Belirttiğin seferde istenen indirim gerçekleşti sakın kaçırma");
+                    result.Status = false;
+                    _dataContext.Discounts.Update(result);
+                    await _dataContext.SaveChangesAsync();
+                    return true;
+                }
             }
+          
             return false;
         }
 
