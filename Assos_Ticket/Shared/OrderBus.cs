@@ -26,6 +26,7 @@ namespace Assos_Ticket.Shared
         public Decimal Price { get; set; }
         public DateTime DateAndTime { get; set; }
         public string Rotate { get; set; }
+        public bool Status { get; set; } = true;
 
 
     }

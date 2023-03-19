@@ -15,7 +15,7 @@ namespace Assos_Ticket.Shared.Model
         public string Password { get; set; }
         [Compare("Password", ErrorMessage = "the passwords do not match")]
         public string ConfirmPassword { get; set; }
-        //False is male,true is female
+        //False is female,true is male
         public bool Gender { get; set; }
 
     }

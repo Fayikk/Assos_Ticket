@@ -99,6 +99,57 @@ namespace Assos_Ticket.Server.Services.ForOrderBus
                 Success = true,
             };
         }
+
+        public async Task<ServiceResponse<List<OrderBus>>> GetListByUser()
+        {
+            var user = _authService.GetUserId();
+            var result = await _context.OrderBusses.Where(x => x.UserId == user).ToListAsync();
+
+            if (result == null)
+            {
+                return new ServiceResponse<List<OrderBus>>
+                {
+                    Message = "You dont have reservation",
+                    Success = false,
+                };
+            }
+            return new ServiceResponse<List<OrderBus>>
+            {
+                Data = result,
+                Message = "",
+                Success = true,
+            };
+
+        }
+
+        public async Task<ServiceResponse<bool>> RefundReserve(int id)
+        {
+            DateTime time = new DateTime();
+            var result = await _context.OrderBusses.FirstOrDefaultAsync(x => x.Id == id);
+            var resultBus = await _context.Busses.FirstOrDefaultAsync(x => x.BusId == result.BusId);
+            time = DateTime.UtcNow;
+            if (time.Year<result.DateAndTime.Year && time.Month<result.DateAndTime.Month)
+            {
+                var refundTime = time.Hour - result.DateAndTime.Hour;
+                if (refundTime >= 12)
+                {
+                    result.SeatNo = 0;
+                    result.Status = false;
+                    resultBus.Capacitiy += 1;
+                    _context.OrderBusses.Update(result);
+                    _context.Busses.Update(resultBus);
+                    await _context.SaveChangesAsync();
+                    return new ServiceResponse<bool>
+                    {
+                        Success = true,
+                    };
+                }
+            }
+            return new ServiceResponse<bool>
+            {
+                Success = false,
+            };
+        }
     }
 }
 

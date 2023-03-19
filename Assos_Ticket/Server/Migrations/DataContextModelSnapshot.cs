@@ -183,6 +183,9 @@ namespace Assos_Ticket.Server.Migrations
                     b.Property<int>("SeatNo")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
