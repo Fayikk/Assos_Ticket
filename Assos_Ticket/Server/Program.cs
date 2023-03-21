@@ -10,6 +10,7 @@ using Assos_Ticket.Server.Services.ForOrderBus;
 using Assos_Ticket.Server.Services.ForPlane;
 using Assos_Ticket.Server.Services.ForPlaneReserve;
 using Assos_Ticket.Server.Services.ForVipCar;
+using Assos_Ticket.Server.Services.ForVipCarRezerve;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -40,6 +41,7 @@ builder.Services.AddScoped<IDiscountService, DiscountService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IPlaneService,PlaneService>();
 builder.Services.AddScoped<IPlaneReserveService, PlaneReserveService>();
+builder.Services.AddScoped<IVipCarRezerveService, VipCarRezerveService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

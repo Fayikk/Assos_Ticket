@@ -18,11 +18,11 @@ namespace Assos_Ticket.Server.Services.ForPlaneReserve
             _authService = authService;
         }
 
-        public async Task<ServiceResponse<RezervePlane>> CreateRezerve(RezervePlane plane)
+        public async Task<ServiceResponse<RezervePlane>> CreateRezerve(int planeId)
         {
             var userId = _authService.GetUserId();
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
-            var result = await _context.Planes.FirstOrDefaultAsync(x => x.PlaneId == plane.ReservePLaneId);
+            var result = await _context.Planes.FirstOrDefaultAsync(x => x.PlaneId == planeId);
             string forTime = "";
 
 
@@ -59,18 +59,23 @@ namespace Assos_Ticket.Server.Services.ForPlaneReserve
             }
             else
             {
+                RezervePlane plane = new RezervePlane();
                 plane.DepartureDate = result.BeginingDate;
                 plane.Price = result.Price;
                 plane.Company = result.Company;
                 plane.TravelTime = forTime;
                 plane.Email = user.Email;
                 plane.UserId = user.Id;
+               
                 if (plane.Luggage > 15)
                 {
                     var amount = plane.Luggage - 15;
                     plane.Price = plane.Price + Convert.ToDecimal(amount * 5);
                 }
+                result.Capacity -= 1;
+
                 _context.RezervePlanes.Add(plane);
+                _context.Planes.Update(result);
                 await _context.SaveChangesAsync();
                 return new ServiceResponse<RezervePlane>
                 {

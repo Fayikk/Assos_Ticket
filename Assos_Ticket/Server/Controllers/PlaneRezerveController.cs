@@ -18,9 +18,9 @@ namespace Assos_Ticket.Server.Controllers
 
         [HttpPost("Rezerve-Plane")]
         [Authorize]
-        public async Task<ActionResult<ServiceResponse<RezervePlane>>> CreateRezervePlane(RezervePlane plane)
+        public async Task<ActionResult<ServiceResponse<RezervePlane>>> CreateRezervePlane(int id)
         {
-            var result = await _planeRezerveService.CreateRezerve(plane);
+            var result = await _planeRezerveService.CreateRezerve(id);
             return Ok(result);  
 
         }

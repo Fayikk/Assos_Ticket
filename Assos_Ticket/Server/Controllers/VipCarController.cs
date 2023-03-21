@@ -21,7 +21,6 @@ namespace Assos_Ticket.Server.Controllers
 
 
         [HttpPost("forFilter")]
-        [Authorize(Roles = "Admin")]
 
         public async Task<ActionResult<ServiceResponse<List<VipCar>>>> FilterByCar(FilterForVipCar car,bool status)
         {
@@ -29,7 +28,6 @@ namespace Assos_Ticket.Server.Controllers
             return Ok(result);  
         }
         [HttpPost("Create")]
-        [Authorize(Roles ="Admin")]
 
         public async Task<ActionResult<ServiceResponse<VipCarDTO>>> CreateCar(VipCarDTO car)
         {

@@ -94,20 +94,28 @@ namespace Assos_Ticket.Server.Services.ForVipCar
 
         public async Task<ServiceResponse<List<VipCar>>> GetFilterByVipCar(FilterForVipCar filterForVipCar, bool status)
         {
-            List<VipCar> vipCar = new List<VipCar>();
+            //List<VipCar> vipCar = new List<VipCar>();
+            var totalDay = filterForVipCar.DateOfReturn.Day - filterForVipCar.PurchaseDate.Day;
+
             if (status == false)
             {
                 var result = await _context.VipCars.
                     Where(x => x.PickupPlace.ToLower()
-                    .Equals(filterForVipCar.PickupPlace.ToLower())
+                    .Equals(filterForVipCar.PickupPlace.ToLower()) && x.DropOfLocation.ToLower().Equals(filterForVipCar.DropOfLocation.ToLower())
                     && x.PurchaseDate.Year == filterForVipCar.PurchaseDate.Year
                       && x.PurchaseDate.Month == filterForVipCar.PurchaseDate.Month
                         && x.PurchaseDate.Day == filterForVipCar.PurchaseDate.Day
-
-                         && x.PurchaseDate.Year == filterForVipCar.PurchaseDate.Year
-                          && x.PurchaseDate.Month == filterForVipCar.PurchaseDate.Month
-                           && x.PurchaseDate.Day == filterForVipCar.PurchaseDate.Day
+                          && x.DateOfReturn.Year == filterForVipCar.DateOfReturn.Year
+                        && x.DateOfReturn.Month == filterForVipCar.DateOfReturn.Month
+                         && x.DateOfReturn.Day == filterForVipCar.DateOfReturn.Day
+                         &&x.CarStatus == true
                     ).ToListAsync();
+
+                foreach (var item in result)
+                {
+                    item.TotalPrice = item.DailyPrice * totalDay;
+                }
+
 
                 if (result.Count == 0)
                 {
@@ -129,9 +137,9 @@ namespace Assos_Ticket.Server.Services.ForVipCar
                   && x.PurchaseDate.Year == filterForVipCar.PurchaseDate.Year
                     && x.PurchaseDate.Month == filterForVipCar.PurchaseDate.Month
                       && x.PurchaseDate.Day == filterForVipCar.PurchaseDate.Day
-                       && x.PurchaseDate.Year == filterForVipCar.PurchaseDate.Year
-                        && x.PurchaseDate.Month == filterForVipCar.PurchaseDate.Month
-                         && x.PurchaseDate.Day == filterForVipCar.PurchaseDate.Day
+                       && x.DateOfReturn.Year == filterForVipCar.DateOfReturn.Year
+                        && x.DateOfReturn.Month == filterForVipCar.DateOfReturn.Month
+                         && x.DateOfReturn.Day == filterForVipCar.DateOfReturn.Day
                   ).ToListAsync();
 
 

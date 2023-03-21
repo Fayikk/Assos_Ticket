@@ -18,7 +18,7 @@ namespace Assos_Ticket.Shared
         public double Luggage { get; set; } = 15;//15 kilodan sonra her kilo için extra
         public DateTime DepartureDate { get; set; } //
         public string? Transfer { get; set; } = "Direct"; //Şimdilik aktarmaların hepsi direk
-        [Column(TypeName ="Decimal(18,2)")]
+        [Column(TypeName = "Decimal(18,2)")]
         public decimal Price { get; set; }
         public string TravelTime { get; set; }
         public string Company { get; set; }

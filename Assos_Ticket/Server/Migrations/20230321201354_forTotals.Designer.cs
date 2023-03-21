@@ -4,6 +4,7 @@ using Assos_Ticket.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assos_Ticket.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230321201354_forTotals")]
+    partial class forTotals
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,46 +333,6 @@ namespace Assos_Ticket.Server.Migrations
                     b.HasKey("ReservePLaneId");
 
                     b.ToTable("RezervePlanes");
-                });
-
-            modelBuilder.Entity("Assos_Ticket.Shared.RezerveVipCar", b =>
-                {
-                    b.Property<int>("RezerveVipCarId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RezerveVipCarId"), 1L, 1);
-
-                    b.Property<decimal?>("Deposit")
-                        .IsRequired()
-                        .HasColumnType("Decimal(18,2)");
-
-                    b.Property<string>("DropOfLocation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Group")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("HowManyDays")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PickupPlace")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("TotalPrice")
-                        .IsRequired()
-                        .HasColumnType("Decimal(18,2)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RezerveVipCarId");
-
-                    b.ToTable("RezerveVipCars");
                 });
 
             modelBuilder.Entity("Assos_Ticket.Shared.Ticket", b =>

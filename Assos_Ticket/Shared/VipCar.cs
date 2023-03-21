@@ -44,8 +44,12 @@ namespace Assos_Ticket.Shared
         [Column(TypeName = "Decimal(18,2)")]
         [Required]
         public Decimal DailyPrice { get; set; }
+        [Column(TypeName = "Decimal(18,2)")]
+        [Required]
+        public Decimal TotalPrice { get; set; }
         [Required]
         public bool CarStatus { get; set; }
         public string? ImageUrl { get; set; }
+        public int? HowManyDays { get; set; } // giriş burada yapılmayacak filtrede gerekli atama yapılacaktır.
     }
 }
