@@ -293,6 +293,46 @@ namespace Assos_Ticket.Server.Migrations
                     b.ToTable("Planes");
                 });
 
+            modelBuilder.Entity("Assos_Ticket.Shared.RezervePlane", b =>
+                {
+                    b.Property<int>("ReservePLaneId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservePLaneId"), 1L, 1);
+
+                    b.Property<string>("Company")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DepartureDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Luggage")
+                        .HasColumnType("float");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("Decimal(18,2)");
+
+                    b.Property<string>("Transfer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TravelTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReservePLaneId");
+
+                    b.ToTable("RezervePlanes");
+                });
+
             modelBuilder.Entity("Assos_Ticket.Shared.Ticket", b =>
                 {
                     b.Property<int>("TicketID")

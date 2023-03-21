@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assos_Ticket.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230319193755_ForStatus")]
-    partial class ForStatus
+    [Migration("20230321184912_ForEmailToTheRezervePlane")]
+    partial class ForEmailToTheRezervePlane
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -153,13 +153,17 @@ namespace Assos_Ticket.Server.Migrations
                     b.Property<int>("DiscountAmount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("PlaneId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Status")
+                    b.Property<bool?>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int?>("VipCarId")
@@ -289,6 +293,43 @@ namespace Assos_Ticket.Server.Migrations
                     b.HasIndex("ExpeditionId");
 
                     b.ToTable("Planes");
+                });
+
+            modelBuilder.Entity("Assos_Ticket.Shared.RezervePlane", b =>
+                {
+                    b.Property<int>("ReservePLaneId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservePLaneId"), 1L, 1);
+
+                    b.Property<string>("Company")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DepartureDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Luggage")
+                        .HasColumnType("float");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("Decimal(18,2)");
+
+                    b.Property<string>("Transfer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TravelTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ReservePLaneId");
+
+                    b.ToTable("RezervePlanes");
                 });
 
             modelBuilder.Entity("Assos_Ticket.Shared.Ticket", b =>

@@ -4,23 +4,23 @@
 
 namespace Assos_Ticket.Server.Migrations
 {
-    public partial class ForOrderBusStatus : Migration
+    public partial class ForEmailToTheRezervePlane : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "Status",
-                table: "OrderBusses",
-                type: "bit",
+            migrationBuilder.AddColumn<string>(
+                name: "Email",
+                table: "RezervePlanes",
+                type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: false);
+                defaultValue: "");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Status",
-                table: "OrderBusses");
+                name: "Email",
+                table: "RezervePlanes");
         }
     }
 }

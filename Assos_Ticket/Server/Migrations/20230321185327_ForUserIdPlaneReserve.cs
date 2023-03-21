@@ -4,23 +4,23 @@
 
 namespace Assos_Ticket.Server.Migrations
 {
-    public partial class ForStatus : Migration
+    public partial class ForUserIdPlaneReserve : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "Status",
-                table: "Discounts",
-                type: "bit",
+            migrationBuilder.AddColumn<int>(
+                name: "UserId",
+                table: "RezervePlanes",
+                type: "int",
                 nullable: false,
-                defaultValue: false);
+                defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Status",
-                table: "Discounts");
+                name: "UserId",
+                table: "RezervePlanes");
         }
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Assos_Ticket.Server.Migrations
 {
-    public partial class NewInitMig1 : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,25 @@ namespace Assos_Ticket.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Discounts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    BusId = table.Column<int>(type: "int", nullable: true),
+                    PlaneId = table.Column<int>(type: "int", nullable: true),
+                    VipCarId = table.Column<int>(type: "int", nullable: true),
+                    DiscountAmount = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Discounts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Expeditions",
                 columns: table => new
                 {
@@ -69,11 +88,30 @@ namespace Assos_Ticket.Server.Migrations
                     SeatNo = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "Decimal(18,2)", nullable: false),
                     DateAndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Rotate = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Rotate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderBusses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RezervePlanes",
+                columns: table => new
+                {
+                    ReservePLaneId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Luggage = table.Column<double>(type: "float", nullable: false),
+                    DepartureDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Transfer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "Decimal(18,2)", nullable: false),
+                    TravelTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RezervePlanes", x => x.ReservePLaneId);
                 });
 
             migrationBuilder.CreateTable(
@@ -217,10 +255,16 @@ namespace Assos_Ticket.Server.Migrations
                 name: "Customers");
 
             migrationBuilder.DropTable(
+                name: "Discounts");
+
+            migrationBuilder.DropTable(
                 name: "OrderBusses");
 
             migrationBuilder.DropTable(
                 name: "Planes");
+
+            migrationBuilder.DropTable(
+                name: "RezervePlanes");
 
             migrationBuilder.DropTable(
                 name: "Tickets");

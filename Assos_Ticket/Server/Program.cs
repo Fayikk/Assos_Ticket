@@ -8,6 +8,7 @@ using Assos_Ticket.Server.Services.ForDiscount;
 using Assos_Ticket.Server.Services.ForExpedition;
 using Assos_Ticket.Server.Services.ForOrderBus;
 using Assos_Ticket.Server.Services.ForPlane;
+using Assos_Ticket.Server.Services.ForPlaneReserve;
 using Assos_Ticket.Server.Services.ForVipCar;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -29,7 +30,6 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(build
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IBusService, BusService>();
-builder.Services.AddScoped<IPlaneService, PlaneService>();
 builder.Services.AddScoped<IExpeditionService,ExpeditionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IVipCarService, VipCarService>();
@@ -38,6 +38,8 @@ builder.Services.AddScoped<ICarImageService, CarImageService>();
 builder.Services.AddScoped<IOrderBusService,OrderBusService>();
 builder.Services.AddScoped<IDiscountService, DiscountService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IPlaneService,PlaneService>();
+builder.Services.AddScoped<IPlaneReserveService, PlaneReserveService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assos_Ticket.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230319174008_NewInitMig1")]
-    partial class NewInitMig1
+    [Migration("20230321184156_StringForTime")]
+    partial class StringForTime
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -139,6 +139,41 @@ namespace Assos_Ticket.Server.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("Assos_Ticket.Shared.Discount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("BusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DiscountAmount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PlaneId")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VipCarId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Discounts");
+                });
+
             modelBuilder.Entity("Assos_Ticket.Shared.Expedition", b =>
                 {
                     b.Property<int>("ExpeditionId")
@@ -184,6 +219,9 @@ namespace Assos_Ticket.Server.Migrations
 
                     b.Property<int>("SeatNo")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -255,6 +293,39 @@ namespace Assos_Ticket.Server.Migrations
                     b.HasIndex("ExpeditionId");
 
                     b.ToTable("Planes");
+                });
+
+            modelBuilder.Entity("Assos_Ticket.Shared.RezervePlane", b =>
+                {
+                    b.Property<int>("ReservePLaneId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservePLaneId"), 1L, 1);
+
+                    b.Property<string>("Company")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DepartureDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Luggage")
+                        .HasColumnType("float");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("Decimal(18,2)");
+
+                    b.Property<string>("Transfer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TravelTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ReservePLaneId");
+
+                    b.ToTable("RezervePlanes");
                 });
 
             modelBuilder.Entity("Assos_Ticket.Shared.Ticket", b =>
