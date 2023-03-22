@@ -35,45 +35,88 @@ namespace Assos_Ticket.Server.Services.ForVipCarRezerve
             }
             else
             {
-                RezerveVipCar vipCar = new RezerveVipCar();
-                vipCar.UserId = userId;
-                vipCar.Email = user.Email;
-                vipCar.TotalPrice = result.DailyPrice * totalDay;
-                vipCar.Deposit = result.Deposit;
-                vipCar.PickupPlace = result.PickupPlace;
-                vipCar.DropOfLocation = result.DropOfLocation;
-                var addedObj = _dataContext.RezerveVipCars.Add(vipCar);
-                if (addedObj.Entity != null)
+                if (result.CarStatus == true)
                 {
-                    result.CarStatus = false;
-                    _dataContext.VipCars.Update(result);
+                    RezerveVipCar vipCar = new RezerveVipCar();
+                    vipCar.UserId = userId;
+                    vipCar.Email = user.Email;
+                    vipCar.TotalPrice = result.DailyPrice * totalDay;
+                    vipCar.Deposit = result.Deposit;
+                    vipCar.PickupPlace = result.PickupPlace;
+                    vipCar.DropOfLocation = result.DropOfLocation;
+                    vipCar.HowManyDays = totalDay;
+                    vipCar.VipCarId = result.CarId;
+
+                    var addedObj = _dataContext.RezerveVipCars.Add(vipCar);
+                    if (addedObj.Entity != null)
+                    {
+                        result.CarStatus = false;
+                        _dataContext.VipCars.Update(result);
+                    }
+                    await _dataContext.SaveChangesAsync();
+                    return new ServiceResponse<RezerveVipCar>
+                    {
+                        Message = "Your procces is success",
+                        Data = vipCar,
+                        Success = true,
+                    };
                 }
-                await _dataContext.SaveChangesAsync();
-                return new ServiceResponse<RezerveVipCar>
+                else
                 {
-                    Message = "Your procces is success",
-                    Data = vipCar,
-                    Success = true,
-                };
+                    return new ServiceResponse<RezerveVipCar> { Message = "This car is already take other customer sorry",Success = false };
+                }
+            }
             }
 
-        //public int RezerveVipCarId { get; set; }
-        //[Required]
-        //public int UserId { get; set; }
-        //[Required]
-        //public string Email { get; set; }
-        //[Required]
-        //public int HowManyDays { get; set; } //Gün aralığını bulup hesaplamayı ata
-        //[Column(TypeName = "Decimal(18,2)")]
-        //[Required]
-        //public decimal? Deposit { get; set; }
-        ////public string? CouponCode { get; set; }//-->Bunu yapalım
-        //[Column(TypeName = "Decimal(18,2)")]
-        //[Required]
-        //public decimal? TotalPrice { get; set; }
-        //public string? PickupPlace { get; set; }
-        //public string? DropOfLocation { get; set; }
+    
+        public async Task<ServiceResponse<List<RezerveVipCar>>> ListMyRezerve()
+        {
+            var userId = _authService.GetUserId();
+            var result = await _dataContext.RezerveVipCars.Where(x => x.UserId == userId).ToListAsync();
+            if (result == null)
+            {
+                return new ServiceResponse<List<RezerveVipCar>>
+                {
+                    Message = "Your process is failed",
+                    Success = false,
 
+                };
+            }
+            return new ServiceResponse<List<RezerveVipCar>>
+            {
+                Data = result,
+                Success = true,
+                Message = "Process is success",
+            };
+
+        }
+
+        public async Task<ServiceResponse<bool>> ToSubmitCar(int id)
+        {
+            var result = await _dataContext.RezerveVipCars.FirstOrDefaultAsync(x => x.RezerveVipCarId == id);
+            var vipCar = await _dataContext.VipCars.FirstOrDefaultAsync(x => x.CarId == result.VipCarId);
+
+
+            if (result != null)
+            {
+                if (vipCar != null)
+                {
+                    vipCar.CarStatus = true;
+                    _dataContext.VipCars.Update(vipCar);
+                   await _dataContext.SaveChangesAsync();
+                    return new ServiceResponse<bool>
+                    {
+                        Success = true,
+                    };
+                }
+            }
+            return new ServiceResponse<bool>
+            {
+                Success = false,
+            };
+        }
     }
+
+        
     }
-}
+
