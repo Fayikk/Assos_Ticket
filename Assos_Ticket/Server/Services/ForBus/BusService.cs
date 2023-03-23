@@ -77,7 +77,6 @@ namespace Assos_Ticket.Server.Services.ForBus
                 Success = true,
             };
         }
-
         public async Task<ServiceResponse<BusExpedition>> GetBus(int busId)
         {
             var result = await _dataContext.Busses.FindAsync(busId);

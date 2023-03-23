@@ -12,6 +12,7 @@ namespace Assos_Ticket.Shared
     {
         [Key]
         public int ReservePLaneId { get; set; }
+        public int ConversationId { get; set; } 
         [Required]
         public int UserId { get; set; }
         [Required]

@@ -29,7 +29,7 @@ namespace Assos_Ticket.Server.Controllers
             var result = await _vipCarRezerveService.ListMyRezerve();
             return Ok(result);
         }
-        [HttpPut, Authorize]
+        [HttpPut, Authorize("Admin")]
         public async Task<ActionResult<ServiceResponse<RezerveVipCar>>> SubmitCar(int id)
         {
             var result = await _vipCarRezerveService.ToSubmitCar(id);

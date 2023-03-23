@@ -40,5 +40,11 @@ namespace Assos_Ticket.Server.Controllers
             var result = await _busService.UpdateBus(id,price);
             return Ok(result);
         }
+        [HttpGet("getById")]
+        public async Task<ActionResult<ServiceResponse<BusExpedition>>> GetByBus(int id)
+        {
+            var result = await _busService.GetBus(id);
+            return Ok(result);
+        }
     }
 }

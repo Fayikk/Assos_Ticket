@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assos_Ticket.Server", "Assos_Ticket\Server\Assos_Ticket.Server.csproj", "{45F43364-8D0E-4BA1-B113-8392FC332FBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assos_Ticket.Server", "Assos_Ticket\Server\Assos_Ticket.Server.csproj", "{45F43364-8D0E-4BA1-B113-8392FC332FBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assos_Ticket.Client", "Assos_Ticket\Client\Assos_Ticket.Client.csproj", "{5C7F866F-D05E-4969-948A-114932CADC8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assos_Ticket.Client", "Assos_Ticket\Client\Assos_Ticket.Client.csproj", "{5C7F866F-D05E-4969-948A-114932CADC8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assos_Ticket.Shared", "Assos_Ticket\Shared\Assos_Ticket.Shared.csproj", "{2A92A574-D997-4CA4-9713-532DB785281C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assos_Ticket.Shared", "Assos_Ticket\Shared\Assos_Ticket.Shared.csproj", "{2A92A574-D997-4CA4-9713-532DB785281C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOP", "AOP\AOP.csproj", "{1E5439E1-BAC2-4609-A0EB-A9DC7C21A3BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{2A92A574-D997-4CA4-9713-532DB785281C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A92A574-D997-4CA4-9713-532DB785281C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A92A574-D997-4CA4-9713-532DB785281C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E5439E1-BAC2-4609-A0EB-A9DC7C21A3BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E5439E1-BAC2-4609-A0EB-A9DC7C21A3BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E5439E1-BAC2-4609-A0EB-A9DC7C21A3BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E5439E1-BAC2-4609-A0EB-A9DC7C21A3BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

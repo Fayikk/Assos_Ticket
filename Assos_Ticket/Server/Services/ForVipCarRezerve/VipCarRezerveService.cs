@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Assos_Ticket.Server.Services.ForAuth;
 using Assos_Ticket.Shared.Model;
+using System.Text;
 
 namespace Assos_Ticket.Server.Services.ForVipCarRezerve
 {
@@ -22,6 +23,9 @@ namespace Assos_Ticket.Server.Services.ForVipCarRezerve
 
         public async Task<ServiceResponse<RezerveVipCar>> CreateVipCarRezerve(int vipCarId)
         {
+
+            Random random = new Random();
+            StringBuilder sb = new StringBuilder();
             var result = await _dataContext.VipCars.FirstOrDefaultAsync(x => x.CarId == vipCarId);
             var userId = _authService.GetUserId();
             var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
@@ -37,6 +41,11 @@ namespace Assos_Ticket.Server.Services.ForVipCarRezerve
             {
                 if (result.CarStatus == true)
                 {
+                    for (int i = 0; i <= 9; i++)
+                    {
+                        sb.Append(random.Next(0, 9));
+                    }
+                    string conversationId = sb.ToString();
                     RezerveVipCar vipCar = new RezerveVipCar();
                     vipCar.UserId = userId;
                     vipCar.Email = user.Email;
@@ -46,7 +55,7 @@ namespace Assos_Ticket.Server.Services.ForVipCarRezerve
                     vipCar.DropOfLocation = result.DropOfLocation;
                     vipCar.HowManyDays = totalDay;
                     vipCar.VipCarId = result.CarId;
-
+                    vipCar.ConversationId = int.Parse(conversationId);
                     var addedObj = _dataContext.RezerveVipCars.Add(vipCar);
                     if (addedObj.Entity != null)
                     {
@@ -103,6 +112,7 @@ namespace Assos_Ticket.Server.Services.ForVipCarRezerve
                 {
                     vipCar.CarStatus = true;
                     _dataContext.VipCars.Update(vipCar);
+                    _dataContext.RezerveVipCars.Remove(result);
                    await _dataContext.SaveChangesAsync();
                     return new ServiceResponse<bool>
                     {

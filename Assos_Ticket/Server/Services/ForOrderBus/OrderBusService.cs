@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace Assos_Ticket.Server.Services.ForOrderBus
 {
@@ -20,6 +21,9 @@ namespace Assos_Ticket.Server.Services.ForOrderBus
 
         public async Task<ServiceResponse<OrderBus>> BusReservation(int id, int seatNo)
         {
+
+            Random random = new Random();
+            StringBuilder sb = new StringBuilder();
             var expeditionBus = await _context.Busses.FirstOrDefaultAsync(x => x.BusId == id);
             var forSeatNumber = await _context.OrderBusses.Where(x => x.BusId == id).ToListAsync();
             var user = _authService.GetUserId();
@@ -80,6 +84,11 @@ namespace Assos_Ticket.Server.Services.ForOrderBus
                 }
 
             }
+            for (int i = 0; i <= 9; i++)
+            {
+                sb.Append(random.Next(0, 9));
+            }
+            string conversationId = sb.ToString();
             OrderBus orderBus = new OrderBus();
             orderBus.SeatNo = seatNo;
             orderBus.BusId = id;
@@ -88,6 +97,7 @@ namespace Assos_Ticket.Server.Services.ForOrderBus
             orderBus.Price = expeditionBus.Price;
             orderBus.DateAndTime = expeditionBus.BeginingDate;
             orderBus.Rotate = expeditionBus.Begining + "-" + expeditionBus.Finish;
+            orderBus.ConversationId = int.Parse(conversationId);
             expeditionBus.Capacitiy -= 1;
             _context.OrderBusses.Add(orderBus);
             _context.Busses.Update(expeditionBus);

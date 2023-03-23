@@ -15,7 +15,7 @@ namespace Assos_Ticket.Shared
         public int Id { get; set; }
         public int BusId { get; set; }
         public int UserId { get; set; }
-        
+        public int ConversationId { get; set; } 
         public bool Gender { get; set; }    
         [Required]
         public int SeatNo { get; set; }

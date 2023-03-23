@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Org.BouncyCastle.Crypto.Signers;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Numerics;
+using System.Text;
 
 namespace Assos_Ticket.Server.Services.ForPlaneReserve
 {
@@ -20,6 +22,10 @@ namespace Assos_Ticket.Server.Services.ForPlaneReserve
 
         public async Task<ServiceResponse<RezervePlane>> CreateRezerve(int planeId)
         {
+         
+            Random random = new Random();
+            StringBuilder sb = new StringBuilder();
+
             var userId = _authService.GetUserId();
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
             var result = await _context.Planes.FirstOrDefaultAsync(x => x.PlaneId == planeId);
@@ -59,6 +65,11 @@ namespace Assos_Ticket.Server.Services.ForPlaneReserve
             }
             else
             {
+                   for (int i = 0; i <= 9; i++)
+                    {
+                        sb.Append(random.Next(0, 9));
+                    }
+              string conversationId = sb.ToString();
                 RezervePlane plane = new RezervePlane();
                 plane.DepartureDate = result.BeginingDate;
                 plane.Price = result.Price;
@@ -66,6 +77,7 @@ namespace Assos_Ticket.Server.Services.ForPlaneReserve
                 plane.TravelTime = forTime;
                 plane.Email = user.Email;
                 plane.UserId = user.Id;
+                plane.ConversationId = int.Parse(conversationId);
                
                 if (plane.Luggage > 15)
                 {

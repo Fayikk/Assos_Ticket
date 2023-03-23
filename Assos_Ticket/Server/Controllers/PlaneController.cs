@@ -30,7 +30,7 @@ namespace Assos_Ticket.Server.Controllers
         }
 
         [HttpPost("CreatePlane")]
-        [Authorize(Roles ="Admin")]
+        //[Authorize(Roles ="Admin")]
 
         public async Task<ActionResult<ServiceResponse<PlaneExpedition>>> CreatePlane(PlaneExpeditionDTO planeExpedition)
         {
