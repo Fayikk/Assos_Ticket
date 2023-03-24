@@ -14,7 +14,7 @@ namespace Assos_Ticket.Server.Services.ForPlaneReserve
     {
         private readonly DataContext _context;
         private readonly IAuthService _authService;
-        public PlaneReserveService(DataContext context,IAuthService authService)
+        public PlaneReserveService(DataContext context, IAuthService authService)
         {
             _context = context;
             _authService = authService;
@@ -22,9 +22,10 @@ namespace Assos_Ticket.Server.Services.ForPlaneReserve
 
         public async Task<ServiceResponse<RezervePlane>> CreateRezerve(int planeId)
         {
-         
+
             Random random = new Random();
             StringBuilder sb = new StringBuilder();
+            StringBuilder sb1 = new StringBuilder();
 
             var userId = _authService.GetUserId();
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
@@ -34,7 +35,7 @@ namespace Assos_Ticket.Server.Services.ForPlaneReserve
 
             if (result.BeginingDate.Day == result.FinisingDate.Day)
             {
-               var forHour = (result.FinisingDate.Hour - result.BeginingDate.Hour).ToString();
+                var forHour = (result.FinisingDate.Hour - result.BeginingDate.Hour).ToString();
                 var forMinute = (result.FinisingDate.Minute - result.BeginingDate.Minute).ToString();
                 forTime = forHour + "-" + forMinute;
             }
@@ -65,37 +66,43 @@ namespace Assos_Ticket.Server.Services.ForPlaneReserve
             }
             else
             {
-                   for (int i = 0; i <= 9; i++)
-                    {
-                        sb.Append(random.Next(0, 9));
-                    }
-              string conversationId = sb.ToString();
-                RezervePlane plane = new RezervePlane();
-                plane.DepartureDate = result.BeginingDate;
-                plane.Price = result.Price;
-                plane.Company = result.Company;
-                plane.TravelTime = forTime;
-                plane.Email = user.Email;
-                plane.UserId = user.Id;
-                plane.ConversationId = int.Parse(conversationId);
-               
-                if (plane.Luggage > 15)
+                for (int i = 0; i <= 9; i++)
                 {
-                    var amount = plane.Luggage - 15;
-                    plane.Price = plane.Price + Convert.ToDecimal(amount * 5);
-                }
-                result.Capacity -= 1;
-
-                _context.RezervePlanes.Add(plane);
-                _context.Planes.Update(result);
-                await _context.SaveChangesAsync();
-                return new ServiceResponse<RezervePlane>
-                {
-                    Data = plane,
-                    Message = "Successfully",
-                    Success = true,
-                };
+                    sb.Append(random.Next(0, 9));
+                }//
             }
+            for (int i = 0; i <= 8; i++)
+            {
+                sb1.Append(random.Next(0, 8));
+            }
+            string conversationId = sb.ToString();
+            string paymentId = sb1.ToString();
+            RezervePlane plane = new RezervePlane();
+            plane.DepartureDate = result.BeginingDate;
+            plane.Price = result.Price;
+            plane.Company = result.Company;
+            plane.TravelTime = forTime;
+            plane.Email = user.Email;
+            plane.UserId = user.Id;
+            plane.PaymentId = paymentId;
+            plane.ConversationId = conversationId;
+
+            if (plane.Luggage > 15)
+            {
+                var amount = plane.Luggage - 15;
+                plane.Price = plane.Price + Convert.ToDecimal(amount * 5);
+            }
+            result.Capacity -= 1;
+
+            _context.RezervePlanes.Add(plane);
+            _context.Planes.Update(result);
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<RezervePlane>
+            {
+                Data = plane,
+                Message = "Successfully",
+                Success = true,
+            };
         }
 
         public async Task<ServiceResponse<List<RezervePlane>>> ListMyRezerve()
@@ -114,4 +121,7 @@ namespace Assos_Ticket.Server.Services.ForPlaneReserve
             return new ServiceResponse<List<RezervePlane>> { Data = getRezerve, Success = true, Message = "Successfully" };
         }
     }
+
+
 }
+

@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using Assos_Ticket.Server.Services.ForAuth;
 using Assos_Ticket.Shared.Model;
 using System.Text;
+using Assos_Ticket.Server.Migrations;
 
 namespace Assos_Ticket.Server.Services.ForVipCarRezerve
 {
@@ -26,6 +27,7 @@ namespace Assos_Ticket.Server.Services.ForVipCarRezerve
 
             Random random = new Random();
             StringBuilder sb = new StringBuilder();
+            StringBuilder sb1 = new StringBuilder();
             var result = await _dataContext.VipCars.FirstOrDefaultAsync(x => x.CarId == vipCarId);
             var userId = _authService.GetUserId();
             var user = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
@@ -45,7 +47,12 @@ namespace Assos_Ticket.Server.Services.ForVipCarRezerve
                     {
                         sb.Append(random.Next(0, 9));
                     }
+                    for (int i = 0; i <= 8; i++)
+                    {
+                        sb1.Append(random.Next(0, 8));
+                    }
                     string conversationId = sb.ToString();
+                    string paymentId = sb.ToString();
                     RezerveVipCar vipCar = new RezerveVipCar();
                     vipCar.UserId = userId;
                     vipCar.Email = user.Email;
@@ -55,7 +62,9 @@ namespace Assos_Ticket.Server.Services.ForVipCarRezerve
                     vipCar.DropOfLocation = result.DropOfLocation;
                     vipCar.HowManyDays = totalDay;
                     vipCar.VipCarId = result.CarId;
-                    vipCar.ConversationId = int.Parse(conversationId);
+                    vipCar.PaymentId = paymentId;
+                    vipCar.ConversationId = conversationId;
+
                     var addedObj = _dataContext.RezerveVipCars.Add(vipCar);
                     if (addedObj.Entity != null)
                     {

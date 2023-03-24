@@ -1,6 +1,6 @@
 ﻿using Assos_Ticket.Shared;
 
-namespace Assos_Ticket.Client.Services
+namespace Assos_Ticket.Client.Services.ForCarService
 {
     public interface ICarImageService
     {

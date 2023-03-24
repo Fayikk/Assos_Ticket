@@ -9,6 +9,8 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using NUnit.Framework;
+using Org.BouncyCastle.Asn1.Ocsp;
+using System.Net;
 
 namespace Assos_Ticket.Server.PaymentSystem
 {
@@ -24,17 +26,20 @@ namespace Assos_Ticket.Server.PaymentSystem
 
         public  string Cancel_Refund()
         {
-            //var user = _authService.GetUserId();
-            //var vipCar = await _dataContext.RezerveVipCars.FirstOrDefaultAsync(x => x.UserId == user);
+            var userId = _authService.GetUserId();
+            var user = _dataContext.Users.FirstOrDefault(x => x.Id == userId);
+            var vipCar = _dataContext.RezerveVipCars.FirstOrDefault(x => x.UserId == userId);
+            var car = _dataContext.VipCars.FirstOrDefault(x => x.CarId == vipCar.VipCarId);
+            var withDeposit = vipCar.TotalPrice + vipCar.Deposit;
             Options options = new Options();
             options.ApiKey = Keys.apiKey; //Iyzico Tarafından Sağlanan Api Key
             options.SecretKey = Keys.secretKey; //Iyzico Tarafından Sağlanan Secret Key
             options.BaseUrl = Keys.baseUrl;
             CreateCancelRequest request = new CreateCancelRequest();
-            request.ConversationId = "123456789";
+            request.ConversationId =vipCar.ConversationId;
             request.Locale = Locale.TR.ToString();
-            request.PaymentId = "19029303";
-            request.Ip = "85.34.78.112";
+            request.PaymentId = vipCar.PaymentId;
+            request.Ip = GetIp();
 
             Cancel cancel = Cancel.Create(request, options);
             return null;
@@ -126,7 +131,7 @@ namespace Assos_Ticket.Server.PaymentSystem
 
             //Assert.AreEqual(Status.SUCCESS.ToString(), payment.Status);
             Assert.AreEqual(Locale.TR.ToString(), payment.Locale);
-            Assert.AreEqual("123456789", payment.ConversationId);
+            Assert.AreEqual(vipCar.ConversationId.ToString(), payment.ConversationId);
             Assert.IsNotNull(payment.SystemTime);
             Assert.IsNull(payment.ErrorCode);
             Assert.IsNull(payment.ErrorMessage);
@@ -134,6 +139,16 @@ namespace Assos_Ticket.Server.PaymentSystem
             return payment.ErrorMessage;
 
         }
+
+
+        private string GetIp()
+        {
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddress = host.AddressList[0]; //ilk IP adresi
+            var IpAddress = ipAddress.ToString();
+            return IpAddress;
+        }
+
         protected void PrintResponse<T>(T resource)
         {
             TraceListener consoleListener = new ConsoleTraceListener();

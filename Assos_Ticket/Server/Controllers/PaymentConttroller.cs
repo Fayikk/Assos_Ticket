@@ -22,5 +22,13 @@ namespace Assos_Ticket.Server.Controllers
             var result = _paymentService.Should_Create_Payment();
             return Ok(result);
         }
+
+        [HttpPut,Authorize]
+        public IActionResult Refund()
+        {
+            var result = _paymentService.Cancel_Refund();
+            return Ok(result);
+        }
+
     }
 }

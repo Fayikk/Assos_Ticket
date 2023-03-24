@@ -14,7 +14,8 @@ namespace Assos_Ticket.Shared
         public int RezerveVipCarId { get; set; }
         public int VipCarId { get; set; }   
         public int UserId { get; set; }
-        public int ConversationId { get; set; } 
+        public string PaymentId { get; set; }  
+        public string ConversationId { get; set; } 
         public string Email { get; set; }
         public int HowManyDays { get; set; } //Gün aralığını bulup hesaplamayı ata
         [Column(TypeName ="Decimal(18,2)")]

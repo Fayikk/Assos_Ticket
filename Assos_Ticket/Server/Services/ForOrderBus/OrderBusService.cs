@@ -24,6 +24,7 @@ namespace Assos_Ticket.Server.Services.ForOrderBus
 
             Random random = new Random();
             StringBuilder sb = new StringBuilder();
+            StringBuilder sb1 = new StringBuilder();
             var expeditionBus = await _context.Busses.FirstOrDefaultAsync(x => x.BusId == id);
             var forSeatNumber = await _context.OrderBusses.Where(x => x.BusId == id).ToListAsync();
             var user = _authService.GetUserId();
@@ -88,7 +89,12 @@ namespace Assos_Ticket.Server.Services.ForOrderBus
             {
                 sb.Append(random.Next(0, 9));
             }
+            for (int i = 0; i <= 8; i++)
+            {
+                sb1.Append(random.Next(0, 8));
+            }
             string conversationId = sb.ToString();
+            string paymentId = sb1.ToString();
             OrderBus orderBus = new OrderBus();
             orderBus.SeatNo = seatNo;
             orderBus.BusId = id;
@@ -97,7 +103,8 @@ namespace Assos_Ticket.Server.Services.ForOrderBus
             orderBus.Price = expeditionBus.Price;
             orderBus.DateAndTime = expeditionBus.BeginingDate;
             orderBus.Rotate = expeditionBus.Begining + "-" + expeditionBus.Finish;
-            orderBus.ConversationId = int.Parse(conversationId);
+            orderBus.ConversationId = conversationId;
+            orderBus.PaymentId = paymentId;
             expeditionBus.Capacitiy -= 1;
             _context.OrderBusses.Add(orderBus);
             _context.Busses.Update(expeditionBus);

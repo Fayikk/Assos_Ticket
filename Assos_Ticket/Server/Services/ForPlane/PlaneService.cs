@@ -31,6 +31,48 @@ namespace Assos_Ticket.Server.Services.ForPlane
             };
         }
 
+        public async Task<ServiceResponse<PlaneExpedition>> DeletePlane(int planeId)
+        {
+            var result = await _dataContext.Planes.FirstOrDefaultAsync(x => x.PlaneId == planeId);
+            if (result == null)
+            {
+                return new ServiceResponse<PlaneExpedition>
+                {
+                    Success = false,
+                    Message = "Your process is failed",
+                };
+            }
+            _dataContext.Planes.Remove(result);
+            await _dataContext.SaveChangesAsync();
+
+            return new ServiceResponse<PlaneExpedition>
+            {
+                Success = true,
+                Message = "Your process is success",
+                Data = result,
+            };
+        }
+
+        public async Task<ServiceResponse<List<PlaneExpedition>>> GetAllPlaneExpedition()
+        {
+            var result = await _dataContext.Planes.ToListAsync();
+            if (result == null)
+            {
+                return new ServiceResponse<List<PlaneExpedition>>
+                {
+                    Message = "Your process is failed",
+                    Success = false,
+                };
+            }
+            return new ServiceResponse<List<PlaneExpedition>>
+            {
+                Data = result,
+                Message = "Your process is success",
+                Success = true,
+            };
+
+        }
+
         public async Task<ServiceResponse<List<PlaneExpedition>>> GetFilterByPlane(FilterForPlane filter)
         {
 
@@ -107,6 +149,38 @@ namespace Assos_Ticket.Server.Services.ForPlane
 
         }
 
+        public async Task<ServiceResponse<PlaneExpedition>> UpdatePlane(PlaneExpeditionDTO plane)
+        {
+            var result = await _dataContext.Planes.FirstOrDefaultAsync(x => x.PlaneId == plane.Id);
+            var obj = _mapper.Map<PlaneExpedition, PlaneExpeditionDTO>(result);
+            if (obj != null)
+            {
+                return new ServiceResponse<PlaneExpedition>
+                {
+                    Success = false,
+                    Message = "Your process is failed",
+                };
+            }
+            result.Capacity = plane.Capacity;
+            result.ReturnBack = plane.ReturnBack;
+            result.ReturnStatus = plane.ReturnStatus;
+            result.Status = plane.Status;
+            result.Begining = plane.Begining;
+            result.BeginingDate= plane.BeginingDate;
+            result.FinisingDate = plane.FinisingDate;
+            result.CreatedDate = plane.CreatedDate;
+            result.PlaneName = plane.PlaneName;
+            result.Price = plane.Price;
+            _dataContext.Planes.Update(result);
+            await _dataContext.SaveChangesAsync();
+            var reverseMap = _mapper.Map<PlaneExpeditionDTO, PlaneExpedition>(obj);
+            return new ServiceResponse<PlaneExpedition>
+            {
+                Success = true,
+                Message = "Your process is success",
+                Data = reverseMap,
+            };
+        }
     }
 
 }
