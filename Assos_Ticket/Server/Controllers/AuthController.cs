@@ -21,7 +21,7 @@ namespace Assos_Ticket.Server.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<ServiceResponse<int>>> CreateRegister(UserRegister user)
         {
-            var result = await _authService.Register(new User { Email = user.Email }, user.Password);
+            var result = await _authService.Register(new User { Email = user.Email,Gender=user.Gender }, user.Password);
             return Ok(result);
 
 

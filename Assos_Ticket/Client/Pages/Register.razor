@@ -22,6 +22,13 @@
         <label for="confirmPassword">Confirm Password</label>
         <InputText id="email" @bind-Value="user.ConfirmPassword" class="form-control" type="password"></InputText>
     </div>
+    <div class="mb-3">
+    <label for="gender">Cinsiyet</label>
+    <InputSelect id="gender" class="form-control" @bind-Value="user.Gender">
+        <option value="false">Kadın</option>
+        <option value="true">Erkek</option>
+    </InputSelect>
+</div>
     <button type="submit" class="btn btn-primary">Register</button>
     <ValidationSummary></ValidationSummary>
     <div class="text-danger">

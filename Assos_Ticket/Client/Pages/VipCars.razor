@@ -13,7 +13,7 @@
             <h3 class="card-title">@item.Company</h3>
             <p class="card-text">@item.Brand</p>
             <p class="card-text">@item.Model</p>
-            <a href="#" class="btn">Daha Fazla Bilgi</a>
+            <a href="checkout/@item.CarId" class="btn btn-primary">Kirala</a>
         </div>
     </div>
 }
@@ -22,7 +22,8 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-         await _vipCarService.GetVipCars();
-        
+        await _vipCarService.GetVipCars();
+
     }
+    
 }

@@ -35,7 +35,7 @@ namespace Assos_Ticket.Server.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("getbyId/{id}")]
         public async Task<ActionResult<ServiceResponse<VipCarDTO>>> GetCarById([FromRoute]int id)
         {
             var result = await _vipCarService.GetByCar(id);

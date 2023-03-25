@@ -2,6 +2,7 @@ using Assos_Ticket.Client;
 using Assos_Ticket.Client.Services.ForAuthServices;
 using Assos_Ticket.Client.Services.ForBusService;
 using Assos_Ticket.Client.Services.ForCarService;
+using Assos_Ticket.Client.Services.ForPlaneService;
 using Assos_Ticket.Client.Services.ForVipCarService;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -20,7 +21,7 @@ builder.Services.AddScoped<ICarImageService, CarImageService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IBusService, BusService>();
 builder.Services.AddScoped<IVipCarService, VipCarService>();
-builder.Services.AddScoped<IBusService, BusService>();
+builder.Services.AddScoped<IPlaneService, PlaneService>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 
 await builder.Build().RunAsync();

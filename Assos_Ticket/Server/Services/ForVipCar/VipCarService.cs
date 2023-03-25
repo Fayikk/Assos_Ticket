@@ -73,7 +73,7 @@ namespace Assos_Ticket.Server.Services.ForVipCar
 
         public async Task<ServiceResponse<VipCarDTO>> GetByCar(int id)
         {
-            var obj = await _context.VipCars.FindAsync(id);
+            var obj = await _context.VipCars.FirstOrDefaultAsync(x=>x.CarId == id);
 
             if (obj == null)
             {
