@@ -1,0 +1,60 @@
+﻿@page "/login"
+@using Assos_Ticket.Client.Services.ForAuthServices;
+@using Assos_Ticket.Shared.Model;
+@using Blazored.LocalStorage;
+@using Microsoft.AspNetCore.Components.Authorization;
+@inject IAuthService _authService
+@inject ILocalStorageService _localStorageService
+@inject NavigationManager _navigationManager
+@inject AuthenticationStateProvider _authenticationStateProvider  
+@inject IJSRuntime _jsRuntime
+
+<PageTitle>Login</PageTitle>
+<h3>Login</h3>
+
+<EditForm Model="user" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="user.Email" class="form-control"></InputText>
+        <ValidationMessage For="@(() => user.Email)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="password">Password</label>
+        <InputText id="email" @bind-Value="user.Password" class="form-control" type="password"></InputText>
+    </div>
+    <ValidationSummary></ValidationSummary>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+
+</EditForm>
+
+<div class="text-danger">
+    <span>@errorMessage</span>
+</div>
+
+@code {
+    private UserLogin user = new UserLogin();
+    private string errorMessage = string.Empty;
+
+    private async Task HandleLogin()
+    {
+        var result = await _authService.Login(user);
+        if (result.Success)
+        {
+            errorMessage = string.Empty;
+
+            await _localStorageService.SetItemAsync("authToken", result.Data);
+            await _authenticationStateProvider.GetAuthenticationStateAsync();
+            _navigationManager.NavigateTo("");
+            //await _js.InvokeVoidAsync("ShowToastr", "success", "Success");
+        }
+        else
+        {
+            errorMessage = result.Message;
+            await _jsRuntime.InvokeVoidAsync("ShowToastr", "error", errorMessage);
+
+        }
+
+    }
+}

@@ -43,7 +43,7 @@ namespace Assos_Ticket.Server.Controllers
             return Ok(result);
         }
         [HttpPost("add-image-bus")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
 
         public IActionResult CreateImageBus([FromForm] IFormFile file, [FromForm] int busId)
         {

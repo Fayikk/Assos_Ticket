@@ -1,0 +1,29 @@
+﻿@page "/PlaneExpeditions"
+@using Assos_Ticket.Client.Services.ForPlaneService;
+@inject IPlaneService _planeService
+
+<PageTitle>Plane Expeditions</PageTitle>
+
+
+@foreach (var item in _planeService.planeExpeditions)
+{
+    <div class="card">
+        <img style="position:center" src="@item.ImageUrl" alt="Card Image">
+        <div class="card-body">
+            <h3 class="card-title">@item.Company</h3>
+            <p class="card-text">@item.Begining</p>
+            <p class="card-text">@item.Finish</p>
+            <a href="#" class="btn">Daha Fazla Bilgi</a>
+        </div>
+    </div>
+}
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await _planeService.GetPlaneList();
+    }
+
+
+}

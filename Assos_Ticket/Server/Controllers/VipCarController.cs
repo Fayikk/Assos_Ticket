@@ -47,5 +47,12 @@ namespace Assos_Ticket.Server.Controllers
             var result = await _vipCarService.SearchText(searchText);
             return Ok(result);  
         }
+
+        [HttpGet("getAll")]
+        public async Task<ActionResult<ServiceResponse<VipCar>>> GetAll()
+        {
+            var result = await _vipCarService.GetAllVipCar();
+            return Ok(result);
+        }
     }
 }

@@ -1,0 +1,53 @@
+﻿@page "/register"
+@using Assos_Ticket.Client.Services.ForAuthServices;
+@using Assos_Ticket.Shared.Model;
+@inject IAuthService _authService
+@inject NavigationManager _navigationManager
+
+<PageTitle>Register</PageTitle>
+
+
+<EditForm Model="user" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="user.Email" class="form-control"></InputText>
+        <ValidationMessage For="@(() => user.Email)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="password">Password</label>
+        <InputText id="email" @bind-Value="user.Password" class="form-control" type="password"></InputText>
+    </div>
+    <div class="mb-3">
+        <label for="confirmPassword">Confirm Password</label>
+        <InputText id="email" @bind-Value="user.ConfirmPassword" class="form-control" type="password"></InputText>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+    <ValidationSummary></ValidationSummary>
+    <div class="text-danger">
+        <span @errorMessage></span>
+    </div>
+</EditForm>
+
+
+@code {
+    UserRegister user = new UserRegister();
+
+    string message = string.Empty;
+    string messageCssClass = string.Empty;
+    async Task HandleRegistration()
+    {
+        var result = await _authService.Register(user);
+        _navigationManager.NavigateTo("login");
+
+        if (!result.Success)
+        {
+            messageCssClass = "text-success";
+        }
+        else
+        {
+            messageCssClass = "text-danger";
+        }
+
+    }
+}

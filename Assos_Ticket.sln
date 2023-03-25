@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assos_Ticket.Client", "Asso
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assos_Ticket.Shared", "Assos_Ticket\Shared\Assos_Ticket.Shared.csproj", "{2A92A574-D997-4CA4-9713-532DB785281C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOP", "AOP\AOP.csproj", "{1E5439E1-BAC2-4609-A0EB-A9DC7C21A3BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AOP", "AOP\AOP.csproj", "{1E5439E1-BAC2-4609-A0EB-A9DC7C21A3BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,32 @@
+﻿@page "/BusExpeditions"
+@using Assos_Ticket.Client.Services.ForBusService;
+@using Assos_Ticket.Shared;
+@inject IBusService _busService
+
+<PageTitle>Bus Expeditions</PageTitle>
+
+
+@foreach(var item in _busService.busExpeditions)
+{
+    <div class="card">
+        <img style="position:center" src="@item.ImageUrl" alt="Card Image">
+        <div class="card-body">
+            <h3 class="card-title">@item.Company</h3>
+            <p class="card-text">@item.Begining</p>
+            <p class="card-text">@item.Finish</p>
+            <a href="#" class="btn">Daha Fazla Bilgi</a>
+        </div>
+    </div>
+}
+
+
+@code {
+    public List<BusExpedition> busses { get; set; } = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+       await _busService.GetAllBusExpedition();
+    }
+
+
+}

@@ -1,0 +1,28 @@
+﻿@page "/vipCars"
+@using Assos_Ticket.Client.Services.ForVipCarService;
+@inject IVipCarService _vipCarService
+
+<PageTitle>Vip Car Expeditions</PageTitle>
+
+
+@foreach (var item in _vipCarService.vipCars)
+{
+    <div class="card">
+        <img style="position:center" src="@item.ImageUrl" alt="Card Image">
+        <div class="card-body">
+            <h3 class="card-title">@item.Company</h3>
+            <p class="card-text">@item.Brand</p>
+            <p class="card-text">@item.Model</p>
+            <a href="#" class="btn">Daha Fazla Bilgi</a>
+        </div>
+    </div>
+}
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+         await _vipCarService.GetVipCars();
+        
+    }
+}

@@ -39,7 +39,7 @@ namespace Assos_Ticket.Server.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet("getall")]
         public async Task<ActionResult<ServiceResponse<PlaneExpedition>>> GetAll()
         {
             var result = await _planeService.GetAllPlaneExpedition();
