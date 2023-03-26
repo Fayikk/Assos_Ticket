@@ -1,0 +1,81 @@
+﻿@page "/filtervipcar"
+@using Assos_Ticket.Client.Services.ForVipCarService;
+@using Assos_Ticket.Client.Services.Rezervation.VipCars;
+@using Assos_Ticket.Shared.Model;
+@using Assos_Ticket.Shared;
+@inject IVipCarService _vipCarService 
+
+
+@if (status == false)
+{
+    <EditForm Model="vipCar" OnValidSubmit="SendFilter">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <div class="mb-3">
+            <label for="pickupplace">Pickup Place</label>
+            <InputText id="pickupplace" @bind-Value="vipCar.PickupPlace" class="form-control"></InputText>
+            <ValidationMessage For="@(() => vipCar.PickupPlace)"></ValidationMessage>
+        </div>
+        <div class="mb-3">
+            <label for="DropOfLocation">DropOfLocation</label>
+            <InputText id="DropOfLocation" @bind-Value="vipCar.DropOfLocation" class="form-control"></InputText>
+            <ValidationMessage For="@(() => vipCar.DropOfLocation)"></ValidationMessage>
+        </div>
+        <div class="mb-3">
+            <label for="PurchaseDate">Purchase Date</label>
+            <InputDate id="PurchaseDate" @bind-Value="vipCar.PurchaseDate" class="form-control"></InputDate>
+            <ValidationMessage For="@(() => vipCar.PurchaseDate)"></ValidationMessage>
+        </div>
+        <div class="mb-3">
+            <label for="DateOfReturn">Date Of Return</label>
+            <InputDate id="DateOfReturn" @bind-Value="vipCar.DateOfReturn" class="form-control"></InputDate>
+            <ValidationMessage For="@(() => vipCar.DateOfReturn)"></ValidationMessage>
+        </div>
+        <div class="mb-3">
+            <label for="Status">Status</label>
+
+            <InputSelect id="Status" class="form-control" @bind-Value="vipCar.Status">
+                <option value="false">Hayır</option>
+                <option value="true">Evet</option>
+            </InputSelect>
+            <ValidationMessage For="@(() => vipCar.Status)"></ValidationMessage>
+        </div>
+        <ValidationSummary></ValidationSummary>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+
+    </EditForm>
+
+}
+else
+{
+    @foreach (var item in vipCars)
+    {
+        <div class="card">
+            <img style="position:center" src="@item.ImageUrl" alt="Card Image">
+            <div class="card-body">
+                <h3 class="card-title">@item.Company</h3>
+                <p class="card-text">@item.Brand</p>
+                <p class="card-text">@item.Model</p>
+                <a href="checkout/@item.CarId" class="btn btn-primary">Kirala</a>
+            </div>
+        </div>
+    }
+}
+
+
+@code {
+    private FilterForVipCar vipCar = new FilterForVipCar();
+    List<VipCar> vipCars = new List<VipCar>();
+    private bool status = false;
+    private async Task SendFilter()
+    {
+        var result = await _vipCarService.FilterVipCars(vipCar);
+        if (result.Data!= null)
+        {
+            status = true;
+            vipCars = result.Data;
+        }
+    }
+}
+
+

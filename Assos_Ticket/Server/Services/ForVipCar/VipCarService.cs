@@ -92,12 +92,12 @@ namespace Assos_Ticket.Server.Services.ForVipCar
             };
         }
 
-        public async Task<ServiceResponse<List<VipCar>>> GetFilterByVipCar(FilterForVipCar filterForVipCar, bool status)
+        public async Task<ServiceResponse<List<VipCar>>> GetFilterByVipCar(FilterForVipCar filterForVipCar)
         {
             //List<VipCar> vipCar = new List<VipCar>();
             var totalDay = filterForVipCar.DateOfReturn.Day - filterForVipCar.PurchaseDate.Day;
 
-            if (status == false)
+            if (filterForVipCar.Status == false)
             {
                 var result = await _context.VipCars.
                     Where(x => x.PickupPlace.ToLower()

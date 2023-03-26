@@ -11,7 +11,7 @@ namespace Assos_Ticket.Server.Services.ForVipCar
         Task<ServiceResponse<VipCarDTO>> UpdateVipCar(VipCarDTO vipCarDTO);
         Task<ServiceResponse<bool>> DeleteVipCar(int id);
         Task<ServiceResponse<VipCarDTO>> GetByCar(int id);
-        Task<ServiceResponse<List<VipCar>>> GetFilterByVipCar(FilterForVipCar filterForVipCar,bool status);
+        Task<ServiceResponse<List<VipCar>>> GetFilterByVipCar(FilterForVipCar filterForVipCar);
         Task<ServiceResponse<List<VipCar>>> SearchText(string searchText);  
     }
 }

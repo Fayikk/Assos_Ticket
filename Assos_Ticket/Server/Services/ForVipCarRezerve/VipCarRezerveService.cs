@@ -52,7 +52,7 @@ namespace Assos_Ticket.Server.Services.ForVipCarRezerve
                         sb1.Append(random.Next(0, 8));
                     }
                     string conversationId = sb.ToString();
-                    string paymentId = sb.ToString();
+                    string paymentId = sb1.ToString();
                     RezerveVipCar vipCar = new RezerveVipCar();
                     vipCar.UserId = userId;
                     vipCar.Email = user.Email;

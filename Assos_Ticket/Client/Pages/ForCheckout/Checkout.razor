@@ -1,0 +1,56 @@
+﻿@page "/checkout/{Id:int}"
+@using Assos_Ticket.Client.Services.ForVipCarService;
+@using Assos_Ticket.Client.Services.Rezervation.VipCars;
+@using Assos_Ticket.Shared.DTO;
+@inject IVipCarService _vipCarService
+@inject IVipCarRezervation _vipCarRezerve
+@inject IJSRuntime _jsRuntime;
+
+
+	<div class="arac-detay">
+		<img src="@vipCar.ImageUrl" alt="Araç Resmi">
+		<h2>Araç Adı</h2>
+		<ul>
+			<li><strong>Model:</strong> @vipCar.Model</li>
+			<li><strong>Günlük Fiyatı</strong> @vipCar.DailyPrice</li>
+			<li><strong>Marka</strong> @vipCar.Brand</li>
+			<li><strong>Vites:</strong> Manuel</li>
+			<li><strong>Renk:</strong> Beyaz</li>
+		</ul>
+		<p>@vipCar.Description </p>
+	<button @onclick="()=>checkout(vipCar.CarId)" class="btn btn-primary">Kiralama İsteği Gönder</button>
+	</div>
+
+
+
+@code {
+	[Parameter]
+	public int? Id { get; set; }
+	VipCarDTO vipCar = new VipCarDTO();
+	private string errorMessage = string.Empty;
+	protected override async Task OnParametersSetAsync()
+	{
+		if (Id.HasValue)
+		{
+			vipCar = await _vipCarService.GetVipCar(Id.Value);
+
+		}
+	}
+
+	public async Task checkout(int id)
+	{
+		var result = await _vipCarRezerve.CreateRezervation(id);
+		if (result.Success)
+		{
+			errorMessage = string.Empty;
+		}
+		else
+		{
+			errorMessage = result.Message;
+			await _jsRuntime.InvokeVoidAsync("ShowToastr", "error", errorMessage);
+
+		}
+		
+	}
+
+}

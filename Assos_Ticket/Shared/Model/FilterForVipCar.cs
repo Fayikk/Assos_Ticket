@@ -13,6 +13,8 @@ namespace Assos_Ticket.Shared.Model
         public string DropOfLocation { get; set; }
         public DateTime PurchaseDate { get; set; }
         public DateTime DateOfReturn { get; set; }
+
+        public bool Status { get; set; } = false;   
    
 
     }

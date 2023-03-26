@@ -13,11 +13,11 @@ namespace Assos_Ticket.Server.Controllers
         private readonly IVipCarRezerveService _vipCarRezerveService;
         public VipCarRezerveController(IVipCarRezerveService vipCarRezerveService)
         {
-            _vipCarRezerveService= vipCarRezerveService;
+            _vipCarRezerveService = vipCarRezerveService;
         }
 
-        [HttpPost,Authorize]
-        public async Task<ActionResult<ServiceResponse<RezerveVipCar>>> CreateRezerveCar(int id)
+        [HttpPost("{id}"),Authorize]
+        public async Task<ActionResult<ServiceResponse<RezerveVipCar>>> CreateRezerveCar([FromRoute]int id)
         {
             var result = await _vipCarRezerveService.CreateVipCarRezerve(id);
             return Ok(result);

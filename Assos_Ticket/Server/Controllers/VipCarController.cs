@@ -21,14 +21,13 @@ namespace Assos_Ticket.Server.Controllers
 
 
         [HttpPost("forFilter")]
-
-        public async Task<ActionResult<ServiceResponse<List<VipCar>>>> FilterByCar(FilterForVipCar car,bool status)
+        public async Task<ActionResult<ServiceResponse<List<VipCar>>>> FilterByCar([FromBody]FilterForVipCar car)
         {
-            var result = await _vipCarService.GetFilterByVipCar(car, status);
+            var result = await _vipCarService.GetFilterByVipCar(car);
             return Ok(result);  
         }
-        [HttpPost("Create")]
 
+        [HttpPost("Create")]
         public async Task<ActionResult<ServiceResponse<VipCarDTO>>> CreateCar(VipCarDTO car)
         {
             var result = await _vipCarService.CreateVipCar(car);

@@ -1,0 +1,35 @@
+﻿@page "/myrezervelist"
+@using Assos_Ticket.Client.Pages.Payment;
+@using Assos_Ticket.Client.Services.Rezervation.VipCars;
+@inject IVipCarRezervation _vipCar
+@inject IPaymentService _paymentService
+
+
+<PageTitle><strong>Index</strong></PageTitle>
+
+@foreach (var item in _vipCar.rezerveVipCars)
+{
+    <div class="card" style="width: 300px;border: 1px solid #ddd;border-radius: 5px;padding: 20px;box-shadow: 0px 2px 4px rgba(0,0,0,0.2);">
+        <img src="https://via.placeholder.com/150" alt="Placeholder Image">
+        <h3>@item.Email</h3>
+        <h3>@item.PickupPlace</h3>
+        <h3>@item.DropOfLocation</h3>
+        <p>@item.Deposit</p>
+        <button class="btn btn-secondary" @onclick="Pay"></button>
+    </div>
+
+}
+
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await _vipCar.GetMyRezerveList();
+    }
+
+    public void Pay()
+    {
+        _paymentService.Checkout();
+    }
+}
