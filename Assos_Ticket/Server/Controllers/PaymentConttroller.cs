@@ -1,5 +1,6 @@
 ﻿using Assos_Ticket.Server.PaymentSystem;
 using Assos_Ticket.Shared;
+using Assos_Ticket.Shared.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,9 @@ namespace Assos_Ticket.Server.Controllers
         }
 
         [HttpPost,Authorize]
-        public ActionResult<ServiceResponse<string>> Checkout()
+        public ActionResult<ServiceResponse<string>> Checkout(PaymentModel model)
         {
-            var result = _paymentService.Should_Create_Payment();
+            var result = _paymentService.Should_Create_Payment(model);
             return Ok(result);
         }
 

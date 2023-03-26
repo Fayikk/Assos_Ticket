@@ -15,7 +15,8 @@ namespace Assos_Ticket.Client.Services.Rezervation.VipCars
 
         public async Task<ServiceResponse<string>> CreateRezervation(int id)
         {
-          var result = await _httpClient.PostAsJsonAsync<ServiceResponse<RezerveVipCar>>($"api/VipCarRezerve/{id}",null);
+          var result = await _httpClient.PostAsync($"api/VipCarRezerve/{id}",null);
+            //var trying = result;
           return await result.Content.ReadFromJsonAsync<ServiceResponse<string>>();
         }
 

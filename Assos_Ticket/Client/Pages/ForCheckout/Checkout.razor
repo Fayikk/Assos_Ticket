@@ -5,7 +5,7 @@
 @inject IVipCarService _vipCarService
 @inject IVipCarRezervation _vipCarRezerve
 @inject IJSRuntime _jsRuntime;
-
+@inject NavigationManager _navigationManager
 
 	<div class="arac-detay">
 		<img src="@vipCar.ImageUrl" alt="Araç Resmi">
@@ -43,6 +43,9 @@
 		if (result.Success)
 		{
 			errorMessage = string.Empty;
+			errorMessage = result.Message;
+			await _jsRuntime.InvokeVoidAsync("ShowToastr", "success", "This car is available for rent");
+			_navigationManager.NavigateTo("paymentForm");
 		}
 		else
 		{

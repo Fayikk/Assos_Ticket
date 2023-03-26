@@ -75,7 +75,6 @@ namespace Assos_Ticket.Server.Services.ForVipCarRezerve
                     return new ServiceResponse<RezerveVipCar>
                     {
                         Message = "Your procces is success",
-                        Data = vipCar,
                         Success = true,
                     };
                 }

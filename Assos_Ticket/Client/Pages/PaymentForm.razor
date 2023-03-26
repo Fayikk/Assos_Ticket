@@ -1,0 +1,65 @@
+﻿@page "/paymentForm"
+@inject IPaymentService _paymentService
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
+@using Assos_Ticket.Client.Pages.Payment;
+@using Assos_Ticket.Shared.Model;
+
+
+<EditForm Model="@PaymentModel" OnValidSubmit="HandlePaymentForm">
+    <div class="form-group">
+        <label for="cardHolderName">Card Holder Name:</label>
+        <InputText id="cardHolderName" @bind-Value="PaymentModel.CardHolderName" class="form-control" />
+        <ValidationMessage For="@(() => PaymentModel.CardHolderName)" />
+    </div>
+    <div class="form-group">
+        <label for="surname">Surname:</label>
+        <InputText id="surname" @bind-Value="PaymentModel.Surname" class="form-control" />
+        <ValidationMessage For="@(() => PaymentModel.Surname)" />
+    </div>
+    <div class="form-group">
+        <label for="cardNumber">Card Number:</label>
+        <InputText id="cardNumber" @bind-Value="PaymentModel.CardNumber" class="form-control" />
+        <ValidationMessage For="@(() => PaymentModel.CardNumber)" />
+    </div>
+    <div class="form-group">
+        <label for="nameOnCard">Name on Card:</label>
+        <InputText id="nameOnCard" @bind-Value="PaymentModel.NameOnCard" class="form-control" />
+        <ValidationMessage For="@(() => PaymentModel.NameOnCard)" />
+    </div>
+    <div class="form-group">
+        <label for="expireMonth">Expiration Month:</label>
+        <InputText id="expireMonth" @bind-Value="PaymentModel.ExpireMonth" class="form-control" />
+        <ValidationMessage For="@(() => PaymentModel.ExpireMonth)" />
+    </div>
+    <div class="form-group">
+        <label for="expireYear">Expiration Year:</label>
+        <InputText id="expireYear" @bind-Value="PaymentModel.ExpireYear" class="form-control" />
+        <ValidationMessage For="@(() => PaymentModel.ExpireYear)" />
+    </div>
+    <div class="form-group">
+        <label for="cvc">CVC:</label>
+        <InputText id="cvc" @bind-Value="PaymentModel.Cvc" class="form-control" />
+        <ValidationMessage For="@(() => PaymentModel.Cvc)" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    private PaymentModel PaymentModel { get; set; } = new PaymentModel();
+    private string message = string.Empty;
+    private async Task HandlePaymentForm()
+    {
+        var result = await _paymentService.Checkout(PaymentModel);
+        if (result.Success == false)
+        {
+            await _jsRuntime.InvokeVoidAsync("ShowToastr", "error",result.Message);
+            _navigationManager.NavigateTo("paymentForm");
+        }
+        else
+        {
+            await _jsRuntime.InvokeVoidAsync("ShowToastr", "success", result.Message);
+            _navigationManager.NavigateTo("");
+        }
+    }
+}

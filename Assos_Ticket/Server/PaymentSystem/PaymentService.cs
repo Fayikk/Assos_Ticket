@@ -4,14 +4,13 @@ using Assos_Ticket.Server.Services.ForAuth;
 using Iyzipay;
 using Iyzipay.Model;
 using Iyzipay.Request;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using NUnit.Framework;
-using Org.BouncyCastle.Asn1.Ocsp;
 using System.Net;
 using Assos_Ticket.Shared;
+using Assos_Ticket.Shared.Model;
 
 namespace Assos_Ticket.Server.PaymentSystem
 {
@@ -46,7 +45,7 @@ namespace Assos_Ticket.Server.PaymentSystem
             return null;
         }
 
-        public ServiceResponse<string> Should_Create_Payment()
+        public ServiceResponse<string> Should_Create_Payment(PaymentModel paymentModel)
         {
             var userId = _authService.GetUserId();
             var user = _dataContext.Users.FirstOrDefault(x=>x.Id == userId);
@@ -72,11 +71,11 @@ namespace Assos_Ticket.Server.PaymentSystem
             request.PaymentGroup = PaymentGroup.PRODUCT.ToString();
 
             PaymentCard paymentCard = new PaymentCard();
-            paymentCard.CardHolderName = "John Doe";
-            paymentCard.CardNumber = "5890040000000016";
-            paymentCard.ExpireMonth = "12";
-            paymentCard.ExpireYear = "2030";
-            paymentCard.Cvc = "123";
+            paymentCard.CardHolderName = paymentModel.CardHolderName;
+            paymentCard.CardNumber = paymentModel.CardNumber;
+            paymentCard.ExpireMonth = paymentModel.ExpireMonth;
+            paymentCard.ExpireYear = paymentModel.ExpireYear;
+            paymentCard.Cvc = paymentModel.Cvc;
             paymentCard.RegisterCard = 0;
             request.PaymentCard = paymentCard;
 

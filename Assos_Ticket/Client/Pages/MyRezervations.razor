@@ -17,7 +17,6 @@
         <h3>@item.PickupPlace</h3>
         <h3>@item.DropOfLocation</h3>
         <p>@item.Deposit</p>
-        <button class="btn btn-secondary" @onclick="Pay"></button>
     </div>
 
 }
@@ -32,19 +31,19 @@
         await _vipCar.GetMyRezerveList();
     }
 
-    private async Task Pay()
-    {
-        var result = await _paymentService.Checkout();
-        if (result.Success==true)
-        {
-            message = result.Message;
-            await _jsRuntime.InvokeVoidAsync("ShowToastr", "success", message);
-            _navigationManager.NavigateTo("");
-        }
-        else
-        {
-            message = result.Message;
-            await _jsRuntime.InvokeVoidAsync("ShowToastr", "error", message);
-        }
-    }
+    //private async Task Pay()
+    //{
+    //    var result = await _paymentService.Checkout();
+    //    if (result.Success==true)
+    //    {
+    //        message = result.Message;
+    //        await _jsRuntime.InvokeVoidAsync("ShowToastr", "success", message);
+    //        _navigationManager.NavigateTo("");
+    //    }
+    //    else
+    //    {
+    //        message = result.Message;
+    //        await _jsRuntime.InvokeVoidAsync("ShowToastr", "error", message);
+    //    }
+    //}
 }
