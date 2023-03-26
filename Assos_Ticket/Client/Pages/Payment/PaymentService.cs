@@ -11,9 +11,12 @@ namespace Assos_Ticket.Client.Pages.Payment
             _httpClient = httpClient;
         }
 
-        public async Task  Checkout()
+        public async Task<ServiceResponse<string>>  Checkout()
         {
-            var result = _httpClient.PostAsJsonAsync<string>("api/PaymentConttroller", null);
+            var result = await _httpClient.PostAsJsonAsync<ServiceResponse<string>>("api/PaymentConttroller", null);
+            
+            return await result.Content.ReadFromJsonAsync<ServiceResponse<string>>();
+
 
         }
     }

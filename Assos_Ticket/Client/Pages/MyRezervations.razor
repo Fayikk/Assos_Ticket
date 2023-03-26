@@ -3,6 +3,8 @@
 @using Assos_Ticket.Client.Services.Rezervation.VipCars;
 @inject IVipCarRezervation _vipCar
 @inject IPaymentService _paymentService
+@inject IJSRuntime _jsRuntime;
+@inject NavigationManager _navigationManager
 
 
 <PageTitle><strong>Index</strong></PageTitle>
@@ -23,13 +25,26 @@
 
 
 @code {
+    private string message = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         await _vipCar.GetMyRezerveList();
     }
 
-    public void Pay()
+    private async Task Pay()
     {
-        _paymentService.Checkout();
+        var result = await _paymentService.Checkout();
+        if (result.Success==true)
+        {
+            message = result.Message;
+            await _jsRuntime.InvokeVoidAsync("ShowToastr", "success", message);
+            _navigationManager.NavigateTo("");
+        }
+        else
+        {
+            message = result.Message;
+            await _jsRuntime.InvokeVoidAsync("ShowToastr", "error", message);
+        }
     }
 }

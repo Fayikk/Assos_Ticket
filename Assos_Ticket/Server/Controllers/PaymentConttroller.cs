@@ -17,7 +17,7 @@ namespace Assos_Ticket.Server.Controllers
         }
 
         [HttpPost,Authorize]
-        public IActionResult Checkout()
+        public ActionResult<ServiceResponse<string>> Checkout()
         {
             var result = _paymentService.Should_Create_Payment();
             return Ok(result);

@@ -11,6 +11,7 @@ using System.Diagnostics;
 using NUnit.Framework;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System.Net;
+using Assos_Ticket.Shared;
 
 namespace Assos_Ticket.Server.PaymentSystem
 {
@@ -45,7 +46,7 @@ namespace Assos_Ticket.Server.PaymentSystem
             return null;
         }
 
-        public string Should_Create_Payment()
+        public ServiceResponse<string> Should_Create_Payment()
         {
             var userId = _authService.GetUserId();
             var user = _dataContext.Users.FirstOrDefault(x=>x.Id == userId);
@@ -58,7 +59,7 @@ namespace Assos_Ticket.Server.PaymentSystem
             options.ApiKey = Keys.apiKey; //Iyzico Tarafından Sağlanan Api Key
             options.SecretKey = Keys.secretKey; //Iyzico Tarafından Sağlanan Secret Key
             options.BaseUrl = Keys.baseUrl;
-
+            //vipCar.TotalPrice.ToString()
             CreatePaymentRequest request = new CreatePaymentRequest();
             request.Locale = Locale.TR.ToString();
             request.ConversationId = vipCar.ConversationId.ToString();
@@ -133,11 +134,23 @@ namespace Assos_Ticket.Server.PaymentSystem
             Assert.AreEqual(Locale.TR.ToString(), payment.Locale);
             Assert.AreEqual(vipCar.ConversationId.ToString(), payment.ConversationId);
             Assert.IsNotNull(payment.SystemTime);
-            Assert.IsNull(payment.ErrorCode);
-            Assert.IsNull(payment.ErrorMessage);
-            Assert.IsNull(payment.ErrorGroup);
-            return payment.ErrorMessage;
+            //Assert.IsNull(payment.ErrorCode);
+            //Assert.IsNull(payment.ErrorMessage);
+            //Assert.IsNull(payment.ErrorGroup);
 
+            if (payment.ErrorMessage != null)
+            {
+                return new ServiceResponse<string>
+                {
+                    Message = payment.ErrorMessage,
+                    Success = false,
+                };
+            }
+            return new ServiceResponse<string>
+            {
+                Message = "Your Process is succes",
+                Success = true,
+            };
         }
 
 

@@ -1,8 +1,10 @@
-﻿namespace Assos_Ticket.Server.PaymentSystem
+﻿using Assos_Ticket.Shared;
+
+namespace Assos_Ticket.Server.PaymentSystem
 {
     public interface IPaymentService
     {
-        string Should_Create_Payment();
+        ServiceResponse<string> Should_Create_Payment();
         string Cancel_Refund();
     }
 }

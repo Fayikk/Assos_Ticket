@@ -1,7 +1,9 @@
-﻿namespace Assos_Ticket.Client.Pages.Payment
+﻿using Assos_Ticket.Shared;
+
+namespace Assos_Ticket.Client.Pages.Payment
 {
     public interface IPaymentService
     {
-        Task Checkout();
+        Task<ServiceResponse<string>> Checkout();
     }
 }
